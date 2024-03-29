@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "typeindex": "cpp",
+        "typeinfo": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "future": "cpp",
+        "system_error": "cpp",
+        "regex": "cpp",
+        "string": "cpp",
+        "map": "cpp"
+    }
+}

@@ -1,0 +1,5 @@
+Functions can be given as args to another Function
+
+string_one_or_more
+== != allowed for classes and throwed error on things like class+class
+:=

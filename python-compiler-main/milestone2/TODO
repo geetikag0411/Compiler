@@ -1,0 +1,28 @@
+Symbol Table:
+    - 
+Semantic Analysis:
+    -
+3AC code generation:
+    -
+Runtime Support for function calls:
+    -
+
+- 2,3 stack mein size check nahi hai.
+- len support karna hai
+- handle "hello" > "Hello"
+
+
+- throw error if uninitialized variable is used -> karna hai kya ye?
+- init args not supported -> done:
+- list is like a pointer -> done:
+- self abhi nahi kaam kar rha -> done:
+- array ke liye bhi alloc mem -> done:
+- offset in symbol table -> done:
+- implicit type conversion only for int <-> float and int <-> bool: done
+- print() function in global symbol table -> done:
+- Also it seems self.member = something and function_argument = something works as in C/C++ -> done:
+- range in for loop -> done:
+- array indexing by float is type error -> done:
+- class members can only be accessed by self or an object -> done:
+- remove block for if and for and while -> done:
+- global -> done:

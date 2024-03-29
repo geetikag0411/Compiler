@@ -1,0 +1,165 @@
+Starting parse
+Entering state 0
+Stack now 0
+Reading a token
+Next token is token NAME ()
+Shifting token NAME ()
+Entering state 2
+Stack now 0 2
+Reducing stack by rule 159 (line 318):
+   $1 = token NAME ()
+-> $$ = nterm atom ()
+Entering state 70
+Stack now 0 70
+Reading a token
+Next token is token COLON ()
+Reducing stack by rule 151 (line 306):
+   $1 = nterm atom ()
+-> $$ = nterm atom_expr ()
+Entering state 69
+Stack now 0 69
+Next token is token COLON ()
+Reducing stack by rule 149 (line 302):
+   $1 = nterm atom_expr ()
+-> $$ = nterm power ()
+Entering state 68
+Stack now 0 68
+Reducing stack by rule 148 (line 299):
+   $1 = nterm power ()
+-> $$ = nterm factor ()
+Entering state 67
+Stack now 0 67
+Next token is token COLON ()
+Reducing stack by rule 133 (line 280):
+   $1 = nterm factor ()
+-> $$ = nterm term ()
+Entering state 65
+Stack now 0 65
+Next token is token COLON ()
+Reducing stack by rule 128 (line 271):
+   $1 = nterm term ()
+-> $$ = nterm arith_expr ()
+Entering state 63
+Stack now 0 63
+Next token is token COLON ()
+Reducing stack by rule 122 (line 261):
+   $1 = nterm arith_expr ()
+-> $$ = nterm shift_expr ()
+Entering state 61
+Stack now 0 61
+Next token is token COLON ()
+Reducing stack by rule 118 (line 253):
+   $1 = nterm shift_expr ()
+-> $$ = nterm and_expr ()
+Entering state 59
+Stack now 0 59
+Next token is token COLON ()
+Reducing stack by rule 114 (line 245):
+   $1 = nterm and_expr ()
+-> $$ = nterm xor_expr ()
+Entering state 57
+Stack now 0 57
+Next token is token COLON ()
+Reducing stack by rule 110 (line 237):
+   $1 = nterm xor_expr ()
+-> $$ = nterm expr ()
+Entering state 55
+Stack now 0 55
+Next token is token COLON ()
+Reducing stack by rule 95 (line 214):
+   $1 = nterm expr ()
+-> $$ = nterm comparison ()
+Entering state 52
+Stack now 0 52
+Reducing stack by rule 91 (line 206):
+   $1 = nterm comparison ()
+-> $$ = nterm not_test ()
+Entering state 50
+Stack now 0 50
+Next token is token COLON ()
+Reducing stack by rule 86 (line 198):
+   $1 = nterm not_test ()
+-> $$ = nterm and_test ()
+Entering state 48
+Stack now 0 48
+Next token is token COLON ()
+Reducing stack by rule 82 (line 191):
+   $1 = nterm and_test ()
+-> $$ = nterm or_test ()
+Entering state 46
+Stack now 0 46
+Next token is token COLON ()
+Reducing stack by rule 80 (line 185):
+   $1 = nterm or_test ()
+-> $$ = nterm test ()
+Entering state 45
+Stack now 0 45
+Next token is token COLON ()
+Reducing stack by rule 34 (line 108):
+   $1 = nterm test ()
+-> $$ = nterm testlist_star_expr ()
+Entering state 35
+Stack now 0 35
+Next token is token COLON ()
+Shifting token COLON ()
+Entering state 101
+Stack now 0 35 101
+Reading a token
+Next token is token NAME ()
+Shifting token NAME ()
+Entering state 2
+Stack now 0 35 101 2
+Reducing stack by rule 159 (line 318):
+   $1 = token NAME ()
+-> $$ = nterm atom ()
+Entering state 70
+Stack now 0 35 101 70
+Reading a token
+Next token is token NEWLINE ()
+Reducing stack by rule 151 (line 306):
+   $1 = nterm atom ()
+-> $$ = nterm atom_expr ()
+Entering state 69
+Stack now 0 35 101 69
+Next token is token NEWLINE ()
+Reducing stack by rule 149 (line 302):
+   $1 = nterm atom_expr ()
+-> $$ = nterm power ()
+Entering state 68
+Stack now 0 35 101 68
+Reducing stack by rule 148 (line 299):
+   $1 = nterm power ()
+-> $$ = nterm factor ()
+Entering state 67
+Stack now 0 35 101 67
+Next token is token NEWLINE ()
+Reducing stack by rule 133 (line 280):
+   $1 = nterm factor ()
+-> $$ = nterm term ()
+Entering state 65
+Stack now 0 35 101 65
+Next token is token NEWLINE ()
+Reducing stack by rule 128 (line 271):
+   $1 = nterm term ()
+-> $$ = nterm arith_expr ()
+Entering state 63
+Stack now 0 35 101 63
+Next token is token NEWLINE ()
+Reducing stack by rule 122 (line 261):
+   $1 = nterm arith_expr ()
+-> $$ = nterm shift_expr ()
+Entering state 61
+Stack now 0 35 101 61
+Next token is token NEWLINE ()
+Reducing stack by rule 118 (line 253):
+   $1 = nterm shift_expr ()
+-> $$ = nterm and_expr ()
+Entering state 59
+Stack now 0 35 101 59
+Next token is token NEWLINE ()
+Reducing stack by rule 114 (line 245):
+   $1 = nterm and_expr ()
+-> $$ = nterm xor_expr ()
+Entering state 57
+Stack now 0 35 101 57
+Next token is token
