@@ -60,6 +60,7 @@ protected:
     symbol_table *parent_st{nullptr};
     map<string, st_entry*> global_entries;
     int curr_offset{0};
+    int line_no{0};
 
 public:
     int get_symbol_table_type(){return static_cast<int>(symbol_table_type);}
@@ -70,6 +71,7 @@ public:
     st_entry* lookup_all(string name);
     symbol_table* get_parent_st();
     void add_global_entry(st_entry*);
+
     // string get_temporary(string name);
 
     st_entry* lookup_global_entry(string name);
@@ -85,11 +87,14 @@ public:
     virtual st_entry* lookup_class_member(string name){return nullptr;}
     virtual string get_name(){return "";}
     virtual void print(int indent = 0) = 0;
+    virtual void make_csv()=0;
     virtual Type get_return_type(){return {""};}
     virtual symbol_table_class* get_parent_class(){return nullptr;}
     virtual Type get_parameter_type_from_end(int index){return {""};}
     virtual bool is_first_argument_self(){return false;}
     int get_offset(){return curr_offset;}
+    int get_line_no(){return line_no;}
+    void set_line_no(int line_no){this->line_no = line_no;}
     virtual void add_init(){return;}
 };
 
@@ -105,6 +110,7 @@ public:
     symbol_table_class *lookup_class(string name) override;
     symbol_table_function *lookup_function(string name) override;
     void print(int indent = 0) override;
+    void make_csv()override;
 };
 
 class symbol_table_function : public symbol_table
@@ -112,6 +118,7 @@ class symbol_table_function : public symbol_table
     string name;
     vector<st_entry*> parameters;
     Type return_type;
+    // int line_no;
 
 public:
     symbol_table_function(string name, symbol_table *parent_st) : name(name), symbol_table(parent_st) {symbol_table_type = symbol_table_types::FUNCTION_ST;}
@@ -122,8 +129,12 @@ public:
     string get_name() override;
     bool is_first_argument_self() override;
     void print(int indent = 0) override;
+    void make_csv()override;
+    void make_csv(string str);
     int get_parameter_count();
     int get_agrument_size();
+    // void set_line_no(int line_no) {this->line_no = line_no;}
+    // int get_line_no() {return line_no;}
 };
 
 class symbol_table_class : public symbol_table
@@ -131,6 +142,7 @@ class symbol_table_class : public symbol_table
     string name;
     symbol_table_class *parent_class;
     map<string, symbol_table_function *> functions;
+    // int line_no;
 
 public:
     symbol_table_class(string name, symbol_table_class *parent_class, symbol_table *parent_st) : name(name), parent_class(parent_class), symbol_table(parent_st){
@@ -148,6 +160,9 @@ public:
     symbol_table_class* get_parent_class() override;
     // int get_offset() override;
     void print(int indent = 0) override;
+    void make_csv()override;
+    // void set_line_no(int line_no) {this->line_no = line_no;}
+    // int get_line_no() {return line_no;}
 };
 
 #endif

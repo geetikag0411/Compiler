@@ -1,0 +1,3 @@
+Systactic Category(token),Lexeme,Type,Line No,Offset
+Id,__name__,str,0,0
+Function,len,(any[])->int,Not Defined,None

@@ -359,3 +359,74 @@ int symbol_table_function::get_parameter_count()
     }
     return parameters.size();
 }
+
+void symbol_table_global::make_csv()
+{
+    ofstream file;
+    file.open("../output/Global.csv");
+    file << "Systactic Category(token),Lexeme,Type,Line No,Offset\n";
+    for (auto &[name, st_entry] : entries)
+    {
+        file << "Id,"<<st_entry->name << "," << st_entry->type.datatype<<(st_entry->type.is_list? "[]": "" )<< "," << st_entry->line_no << "," << st_entry->offset << "\n";
+    }
+     for(auto &[name,function]:functions)
+    {
+        function->make_csv("");
+       file<<"Function,"<<name<<",(";
+        for(int i = function->get_parameter_count()-1; i>=0; i--)
+        {
+            file<<function->get_parameter_type_from_end(i).datatype;
+            if(function->get_parameter_type_from_end(i).is_list) file<<"[]";
+            if(i!=0) file<<"*";
+        }
+        file<<")->"<<function->get_return_type().datatype;
+        if(function->get_return_type().is_list) file<<"[]";
+        file<<","<<(name=="len"?"Not Defined":to_string(function->get_line_no()))<<",None\n";
+    }
+      for(auto clas:classes)
+    {
+        file<<"Class,"<<clas.first<<",None,"<<clas.second->get_line_no()<<",None\n";
+        clas.second->make_csv();
+    }
+    file.close();
+}
+void symbol_table_function::make_csv(){return;}
+void symbol_table_function::make_csv(string str)
+{
+    // printf("Function: %s\n", name.c_str());
+    if(name=="len")return;
+    ofstream file;
+    file.open("../output/"+ str+name + ".csv");
+    file << "Systactic Category(token),Lexeme,Type,Line No,Offset\n";
+    for (auto &[name, st_entry] : entries)
+    {
+        file << "Id,"<<st_entry->name << "," << st_entry->type.datatype<<(st_entry->type.is_list? "[]": "" )<< "," << st_entry->line_no << "," << st_entry->offset << "\n";
+    }
+  
+    file.close();
+}
+void symbol_table_class::make_csv()
+{
+    ofstream file;
+    file.open("../output/"+name + ".csv");
+    file << "Systactic Category(token),Lexeme,Type,Line No,Offset\n";
+    for (auto &[name, st_entry] : entries)
+    {
+        file << "Id,"<<st_entry->name << "," << st_entry->type.datatype<<(st_entry->type.is_list? "[]": "" )<< "," << st_entry->line_no << "," << st_entry->offset << "\n";
+    }
+    for(auto &[name, function]: functions)
+    {
+        function->make_csv(this->name+".");
+        file<<"Function,"<<name<<",(";
+        for(int i = function->get_parameter_count()-1; i>=0; i--)
+        {
+            file<<function->get_parameter_type_from_end(i).datatype;
+            if(function->get_parameter_type_from_end(i).is_list) file<<"[]";
+            if(i!=0) file<<"*";
+        }
+        file<<")->"<<function->get_return_type().datatype;
+        if(function->get_return_type().is_list) file<<"[]";
+        file<<","<<function->get_line_no()<<",None\n";
+    }
+        
+}

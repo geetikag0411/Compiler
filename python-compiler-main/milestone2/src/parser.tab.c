@@ -100,7 +100,7 @@
     stack<bool> is_print_function;
     vector<vector<ThreeAC*>> threeAC;
     stack<string> op_3AC;
-    vector<string> curr_list_temporaries;
+    // vector<string> curr_list_temporaries;
     void add_len_function(symbol_table_global* global_symbol_table){
         symbol_table_function* len_func = global_symbol_table->create_new_function("len");
         Type type;
@@ -827,26 +827,26 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   182,   182,   183,   186,   187,   188,   189,   192,   222,
-     246,   265,   266,   269,   270,   276,   283,   291,   309,   313,
-     316,   317,   320,   323,   324,   325,   328,   349,   372,   394,
-     417,   418,   419,   422,   473,   488,   531,   532,   579,   589,
-     597,   600,   608,   611,   612,   613,   614,   615,   616,   617,
-     618,   619,   620,   621,   622,   626,   627,   628,   631,   638,
-     648,   649,   650,   651,   652,   655,   659,   667,   679,   691,
-     707,   717,   735,   749,   764,   770,   801,   827,   853,   904,
-     913,   914,   917,   918,   934,   942,   943,   953,   954,   963,
-     964,   974,   975,   984,   985,   988,   996,  1005,  1030,  1033,
-    1039,  1066,  1067,  1068,  1069,  1070,  1071,  1072,  1073,  1074,
-    1075,  1080,  1093,  1096,  1109,  1112,  1125,  1128,  1141,  1144,
-    1157,  1160,  1173,  1176,  1190,  1193,  1204,  1215,  1230,  1247,
-    1261,  1264,  1275,  1286,  1301,  1317,  1318,  1334,  1335,  1336,
-    1337,  1338,  1354,  1370,  1386,  1404,  1413,  1427,  1438,  1441,
-    1442,  1458,  1459,  1475,  1522,  1564,  1586,  1609,  1672,  1721,
-    1754,  1791,  1792,  1793,  1794,  1795,  1856,  1857,  1858,  1859,
-    1860,  1861,  1865,  1866,  1869,  1879,  1885,  1886,  1887,  1889,
-    1896,  1897,  1900,  1904,  1910,  1922,  1926,  1930,  1937,  1938,
-    1939,  1940,  1943,  1944,  1947,  1953,  1954,  1957,  1969
+       0,   182,   182,   183,   186,   187,   188,   189,   192,   223,
+     248,   267,   268,   271,   272,   278,   285,   293,   311,   315,
+     318,   319,   322,   325,   326,   327,   330,   351,   374,   396,
+     419,   420,   421,   424,   475,   490,   535,   536,   585,   595,
+     603,   606,   614,   617,   618,   619,   620,   621,   622,   623,
+     624,   625,   626,   627,   628,   632,   633,   634,   637,   644,
+     654,   655,   656,   657,   658,   661,   665,   673,   685,   697,
+     713,   723,   741,   756,   772,   778,   809,   835,   861,   912,
+     921,   922,   925,   926,   942,   950,   951,   961,   962,   971,
+     972,   982,   983,   992,   993,   996,  1004,  1013,  1038,  1041,
+    1047,  1074,  1075,  1076,  1077,  1078,  1079,  1080,  1081,  1082,
+    1083,  1088,  1101,  1104,  1117,  1120,  1133,  1136,  1149,  1152,
+    1165,  1168,  1181,  1184,  1198,  1201,  1212,  1223,  1238,  1255,
+    1269,  1272,  1283,  1294,  1309,  1325,  1326,  1342,  1343,  1344,
+    1345,  1346,  1362,  1378,  1394,  1412,  1421,  1435,  1446,  1449,
+    1450,  1466,  1467,  1483,  1531,  1573,  1595,  1618,  1681,  1730,
+    1763,  1800,  1803,  1804,  1805,  1806,  1867,  1868,  1869,  1870,
+    1871,  1872,  1876,  1877,  1880,  1891,  1897,  1898,  1899,  1901,
+    1909,  1910,  1913,  1917,  1923,  1935,  1942,  1947,  1955,  1956,
+    1957,  1958,  1961,  1962,  1965,  1971,  1972,  1975,  1987
 };
 #endif
 
@@ -1767,6 +1767,7 @@ yyreduce:
                                                             Type new_type;
                                                             new_type.datatype = "None";
                                                             curr_symbol_table->set_return_type(new_type);
+                                                            curr_symbol_table->set_line_no((yyvsp[-3].nonTerminal)->get_line_no());
                                                             if(symbol_table_stack.size() == 0){
                                                                  cout << "trying to pop empty stack" << endl;
                                                                 exit(-1);
@@ -1789,17 +1790,18 @@ yyreduce:
                                                             symbol_table_stack.pop();
                                                             curr_symbol_table = symbol_table_stack.top();
                                                         }
-#line 1793 "parser.tab.c"
+#line 1794 "parser.tab.c"
     break;
 
   case 9: /* funcdef: funcdef_head parameters func_return_type COLON func_body_suite  */
-#line 222 "parser.y"
+#line 223 "parser.y"
                                                                     { 
                                                                         if(symbol_table_stack.size() == 0)
                                                                         {
                                                                             cout << "trying to pop empty stack" << endl; 
                                                                             exit(-1);
                                                                         }
+                                                                        curr_symbol_table->set_line_no((yyvsp[-4].nonTerminal)->get_line_no());
                                                                         (yyval.nonTerminal) = (yyvsp[-4].nonTerminal);                                                       
                                                                         (yyval.nonTerminal)->gen("pushq", "$rbp");
                                                                         (yyval.nonTerminal)->gen("$rbp","$rsp");
@@ -1816,11 +1818,11 @@ yyreduce:
                                                                         threeAC.push_back((yyval.nonTerminal)->get_code());
                                                                         curr_symbol_table = symbol_table_stack.top();
                                                                     }
-#line 1820 "parser.tab.c"
+#line 1822 "parser.tab.c"
     break;
 
   case 10: /* funcdef_head: DEF NAME  */
-#line 246 "parser.y"
+#line 248 "parser.y"
                         {
                             auto func_symbol_table = curr_symbol_table->create_new_function((yyvsp[0].nonTerminal)->get_lexeme()); 
                             symbol_table_stack.push(func_symbol_table); 
@@ -1838,38 +1840,38 @@ yyreduce:
                             
                             
                         }
-#line 1842 "parser.tab.c"
+#line 1844 "parser.tab.c"
     break;
 
   case 11: /* parameters: OPEN_PAREN CLOSE_PAREN  */
-#line 265 "parser.y"
+#line 267 "parser.y"
                                    {(yyval.nonTerminal) = new NonTerminal((yyvsp[-1].nonTerminal)->get_line_no());}
-#line 1848 "parser.tab.c"
+#line 1850 "parser.tab.c"
     break;
 
   case 12: /* parameters: OPEN_PAREN typedargslist CLOSE_PAREN  */
-#line 266 "parser.y"
+#line 268 "parser.y"
                                        {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal);}
-#line 1854 "parser.tab.c"
+#line 1856 "parser.tab.c"
     break;
 
   case 13: /* func_return_type: ARROW datatype  */
-#line 269 "parser.y"
+#line 271 "parser.y"
                                  {curr_symbol_table->set_return_type(*(yyvsp[0].type));}
-#line 1860 "parser.tab.c"
+#line 1862 "parser.tab.c"
     break;
 
   case 14: /* func_return_type: ARROW NONE  */
-#line 270 "parser.y"
+#line 272 "parser.y"
                 {
                     Type type = {"None", 0}; 
                     curr_symbol_table->set_return_type(type);
                 }
-#line 1869 "parser.tab.c"
+#line 1871 "parser.tab.c"
     break;
 
   case 15: /* typedargslist: NAME COLON datatype  */
-#line 276 "parser.y"
+#line 278 "parser.y"
                                     {
                                         (yyval.nonTerminal) = new NonTerminal((yyvsp[-2].nonTerminal)->get_line_no());
                                         auto offset= curr_symbol_table->get_offset();
@@ -1877,11 +1879,11 @@ yyreduce:
                                         curr_symbol_table->add_parameter((yyvsp[-2].nonTerminal)->get_lexeme(),*(yyvsp[0].type),(yyvsp[-2].nonTerminal)->get_line_no());
                                         
                                     }
-#line 1881 "parser.tab.c"
+#line 1883 "parser.tab.c"
     break;
 
   case 16: /* typedargslist: typedargslist COMMA NAME COLON datatype  */
-#line 283 "parser.y"
+#line 285 "parser.y"
                                             {
                                                 
                                                 auto offset= curr_symbol_table->get_offset();
@@ -1890,11 +1892,11 @@ yyreduce:
                                                 curr_symbol_table->add_parameter((yyvsp[-2].nonTerminal)->get_lexeme(),*(yyvsp[0].type),(yyvsp[-4].nonTerminal)->get_line_no());
                                                 // $$->gen($3->get_lexeme(), "popparam");
                                             }
-#line 1894 "parser.tab.c"
+#line 1896 "parser.tab.c"
     break;
 
   case 17: /* typedargslist: NAME  */
-#line 291 "parser.y"
+#line 293 "parser.y"
        {
             (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
             if((yyvsp[0].nonTerminal)->get_lexeme() != "self")
@@ -1909,64 +1911,64 @@ yyreduce:
             new_type.class_table = parent_class_st;
             auto offset= curr_symbol_table->get_offset();
             curr_symbol_table->add_parameter((yyvsp[0].nonTerminal)->get_lexeme(),new_type,(yyvsp[0].nonTerminal)->get_line_no());
-            (yyval.nonTerminal)->gen("mov8",to_string(offset)+"(rbp)",(yyvsp[0].nonTerminal)->get_lexeme());
+            (yyval.nonTerminal)->gen("mov8",to_string(offset+16)+"(rbp)",(yyvsp[0].nonTerminal)->get_lexeme());
         }
-#line 1915 "parser.tab.c"
+#line 1917 "parser.tab.c"
     break;
 
   case 18: /* stmt: simple_stmt  */
-#line 309 "parser.y"
+#line 311 "parser.y"
                   {
                 (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
                 if(curr_symbol_table == global_symbol_table && curr_if_end_jump_label.empty() && curr_loop_end_jump_label.empty()) threeAC.push_back((yyvsp[0].nonTerminal)->get_code());
             }
-#line 1924 "parser.tab.c"
+#line 1926 "parser.tab.c"
     break;
 
   case 19: /* stmt: compound_stmt  */
-#line 313 "parser.y"
+#line 315 "parser.y"
                 {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 1930 "parser.tab.c"
+#line 1932 "parser.tab.c"
     break;
 
   case 20: /* stmts: stmts stmt  */
-#line 316 "parser.y"
+#line 318 "parser.y"
                   {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal));}
-#line 1936 "parser.tab.c"
+#line 1938 "parser.tab.c"
     break;
 
   case 21: /* stmts: stmt  */
-#line 317 "parser.y"
+#line 319 "parser.y"
        {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 1942 "parser.tab.c"
+#line 1944 "parser.tab.c"
     break;
 
   case 22: /* simple_stmt: small_stmt_semicolon_sep NEWLINE  */
-#line 320 "parser.y"
+#line 322 "parser.y"
                                               {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal);}
-#line 1948 "parser.tab.c"
+#line 1950 "parser.tab.c"
     break;
 
   case 23: /* small_stmt: expr_stmt  */
-#line 323 "parser.y"
+#line 325 "parser.y"
                       {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 1954 "parser.tab.c"
+#line 1956 "parser.tab.c"
     break;
 
   case 24: /* small_stmt: flow_stmt  */
-#line 324 "parser.y"
+#line 326 "parser.y"
             {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 1960 "parser.tab.c"
+#line 1962 "parser.tab.c"
     break;
 
   case 25: /* small_stmt: global_stmt  */
-#line 325 "parser.y"
+#line 327 "parser.y"
               {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 1966 "parser.tab.c"
+#line 1968 "parser.tab.c"
     break;
 
   case 26: /* global_stmt: GLOBAL NAME  */
-#line 328 "parser.y"
+#line 330 "parser.y"
                             {
     if(curr_symbol_table == global_symbol_table){
         cout << "Global keyword not allowed in global scope" << endl;
@@ -1988,11 +1990,11 @@ yyreduce:
         cout<<" Variable not defined in global scope at line no: "<<(yyvsp[0].nonTerminal)->get_line_no()<<endl;
     } 
 }
-#line 1992 "parser.tab.c"
+#line 1994 "parser.tab.c"
     break;
 
   case 27: /* global_stmt: GLOBAL NAME comma_name_one_or_more  */
-#line 349 "parser.y"
+#line 351 "parser.y"
                                      {
     if(curr_symbol_table == global_symbol_table){
         cout << "Global keyword not allowed in global scope" << endl;
@@ -2014,11 +2016,11 @@ yyreduce:
         cout<<" Variable not defined in global scope at line no: "<<(yyvsp[-1].nonTerminal)->get_line_no()<<endl;
     } 
 }
-#line 2018 "parser.tab.c"
+#line 2020 "parser.tab.c"
     break;
 
   case 28: /* comma_name_one_or_more: COMMA NAME  */
-#line 372 "parser.y"
+#line 374 "parser.y"
                                     {
     if(curr_symbol_table == global_symbol_table){
         cout << "Global keyword not allowed in global scope" << endl;
@@ -2041,11 +2043,11 @@ yyreduce:
     } 
 
 }
-#line 2045 "parser.tab.c"
+#line 2047 "parser.tab.c"
     break;
 
   case 29: /* comma_name_one_or_more: COMMA NAME comma_name_one_or_more  */
-#line 394 "parser.y"
+#line 396 "parser.y"
                                     {
     if(curr_symbol_table == global_symbol_table){
         cout << "Global keyword not allowed in global scope" << endl;
@@ -2067,29 +2069,29 @@ yyreduce:
         cout<<" Variable not defined in global scope at line no: "<<(yyvsp[-1].nonTerminal)->get_line_no()<<endl;
     } 
 }
-#line 2071 "parser.tab.c"
+#line 2073 "parser.tab.c"
     break;
 
   case 30: /* small_stmt_semicolon_sep: small_stmt SEMICOLON small_stmt_semicolon_sep  */
-#line 417 "parser.y"
+#line 419 "parser.y"
                                                                         {(yyval.nonTerminal)=new NonTerminal((yyvsp[-2].nonTerminal)->get_line_no(), "SmallStmt");(yyval.nonTerminal)->copy_code((yyvsp[-2].nonTerminal));(yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal));}
-#line 2077 "parser.tab.c"
+#line 2079 "parser.tab.c"
     break;
 
   case 31: /* small_stmt_semicolon_sep: small_stmt  */
-#line 418 "parser.y"
+#line 420 "parser.y"
              {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 2083 "parser.tab.c"
+#line 2085 "parser.tab.c"
     break;
 
   case 32: /* small_stmt_semicolon_sep: small_stmt SEMICOLON  */
-#line 419 "parser.y"
+#line 421 "parser.y"
                        {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);}
-#line 2089 "parser.tab.c"
+#line 2091 "parser.tab.c"
     break;
 
   case 33: /* expr_stmt: testlist_star_expr expr_3_or  */
-#line 422 "parser.y"
+#line 424 "parser.y"
                                         {
                                             if(!(yyvsp[-1].nonTerminal)->get_is_lvalue()){
                                                 cout << "Left hand side of assignment is not a lvalue at line no: " << (yyvsp[0].nonTerminal)->get_line_no() << endl;
@@ -2141,11 +2143,11 @@ yyreduce:
                                             }
 
                                         }
-#line 2145 "parser.tab.c"
+#line 2147 "parser.tab.c"
     break;
 
   case 34: /* expr_stmt: NAME COLON datatype  */
-#line 473 "parser.y"
+#line 475 "parser.y"
                         {
    
                             if(curr_symbol_table->lookup((yyvsp[-2].nonTerminal)->get_lexeme()) != nullptr)
@@ -2161,13 +2163,14 @@ yyreduce:
                             // st_entry* global_entry  = (global_symbol_table->lookup($1->get_lexeme))
                             curr_symbol_table->insert((yyvsp[-2].nonTerminal)->get_lexeme(), *(yyvsp[0].type), (yyvsp[-2].nonTerminal)->get_line_no(), false);
                         }
-#line 2165 "parser.tab.c"
+#line 2167 "parser.tab.c"
     break;
 
   case 35: /* expr_stmt: NAME COLON datatype EQUAL testlist_star_expr  */
-#line 488 "parser.y"
+#line 490 "parser.y"
                                                 {
                                                     (yyval.nonTerminal) = (yyvsp[-4].nonTerminal);
+                                                    (yyval.nonTerminal)->copy_cur_temp((yyvsp[0].nonTerminal));
                                                     if(curr_symbol_table->lookup((yyvsp[-4].nonTerminal)->get_lexeme()) != nullptr){
                                                         cout << "Variable redeclaration in same scope at line no: " << (yyvsp[0].nonTerminal)->get_line_no() << endl;
                                                         exit(-1);
@@ -2187,39 +2190,40 @@ yyreduce:
                                                     (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal));
                                                     if((yyvsp[-2].type)->is_list){
                                                         (yyval.nonTerminal)->set_temporary((yyvsp[-4].nonTerminal)->get_lexeme());
-                                                        (yyval.nonTerminal)->gen("pushl", to_string(curr_list_temporaries.size()*(calculate_size(*(yyvsp[-2].type)))+4));
-                                                        // $$->gen("stackpointer", "+xxx");
-                                                        (yyval.nonTerminal)->gen("call", "allocmem", "1");
-                                                        (yyval.nonTerminal)->gen("$rsp", "$rsp","+", "4");
-                                                        auto temp = NonTerminal::get_new_temporary();
-                                                        (yyval.nonTerminal)->gen(temp, "$rax");
-                                                        (yyval.nonTerminal)->gen("*"+temp, to_string(curr_list_temporaries.size()));
-                                                        (yyval.nonTerminal)->gen((yyvsp[-4].nonTerminal)->get_temporary(), temp, "+", "4");
+                                                        (yyval.nonTerminal)->gen_list_code(calculate_size(*(yyvsp[-2].type)),(yyvsp[-4].nonTerminal)->get_temporary());
+                                                        // $$->gen("pushl", to_string(curr_list_temporaries.size()*(calculate_size(*$3))+4));
+                                                        // // $$->gen("stackpointer", "+xxx");
+                                                        // $$->gen("call", "allocmem", "1");
+                                                        // $$->gen("$rsp", "$rsp","+", "4");
+                                                        // auto temp = NonTerminal::get_new_temporary();
+                                                        // $$->gen(temp, "$rax");
+                                                        // $$->gen("*"+temp, to_string(curr_list_temporaries.size()));
+                                                        // $$->gen($1->get_temporary(), temp, "+", "4");
 
-                                                        for(int i=0;i<curr_list_temporaries.size();++i){
-                                                            auto temp = NonTerminal::get_new_temporary();
-                                                            // cout<<"line 399"<<$1->get_temporary()<<endl;
-                                                            (yyval.nonTerminal)->gen(temp, (yyvsp[-4].nonTerminal)->get_temporary(), "+", to_string(i*calculate_size(*(yyvsp[-2].type))));
-                                                            (yyval.nonTerminal)->gen("*"+temp, curr_list_temporaries[i]);
-                                                        }
-                                                        curr_list_temporaries.clear();
+                                                        // for(int i=0;i<curr_list_temporaries.size();++i){
+                                                        //     auto temp = NonTerminal::get_new_temporary();
+                                                        //     // cout<<"line 399"<<$1->get_temporary()<<endl;
+                                                        //     $$->gen(temp, $1->get_temporary(), "+", to_string(i*calculate_size(*$3)));
+                                                        //     $$->gen("*"+temp, curr_list_temporaries[i]);
+                                                        // }
+                                                        // curr_list_temporaries.clear();
                                                     }
                                                     else{
                                                         (yyval.nonTerminal)->gen((yyvsp[-4].nonTerminal)->get_lexeme(), (yyvsp[0].nonTerminal)->get_temporary());
                                                     }
                                                     curr_symbol_table->insert((yyvsp[-4].nonTerminal)->get_lexeme(), *(yyvsp[-2].type), (yyvsp[-4].nonTerminal)->get_line_no(), true);
                                                 }
-#line 2213 "parser.tab.c"
+#line 2217 "parser.tab.c"
     break;
 
   case 36: /* expr_stmt: testlist_star_expr  */
-#line 531 "parser.y"
+#line 535 "parser.y"
                      { (yyval.nonTerminal) =(yyvsp[0].nonTerminal);}
-#line 2219 "parser.tab.c"
+#line 2223 "parser.tab.c"
     break;
 
   case 37: /* expr_stmt: atom DOT NAME COLON datatype EQUAL testlist_star_expr  */
-#line 532 "parser.y"
+#line 536 "parser.y"
                                                         {
                                                             if((yyvsp[-6].nonTerminal)->get_lexeme() != "self"){
                                                                 cout << "Attribute assignment to non self variable at line no: " << (yyvsp[-6].nonTerminal)->get_line_no();
@@ -2241,37 +2245,39 @@ yyreduce:
                                                             (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
                                                             auto temp = NonTerminal::get_new_temporary();
                                                             (yyval.nonTerminal)->gen(temp, (yyvsp[-6].nonTerminal)->get_temporary(), "+", to_string(offset));
+                                                            (yyval.nonTerminal)->copy_cur_temp((yyvsp[0].nonTerminal));
                                                             if((yyvsp[-2].type)->is_list){
                                                                 (yyval.nonTerminal)->set_temporary((yyvsp[-6].nonTerminal)->get_lexeme());
-                                                                (yyval.nonTerminal)->gen("pushl", to_string(curr_list_temporaries.size()*calculate_size(*(yyvsp[-2].type)) + 4));
-                                                                // $$->gen("stackpointer", "+xxx");
-                                                                (yyval.nonTerminal)->gen("call", "allocmem", "1");
-                                                                (yyval.nonTerminal)->gen("$rsp", "$rsp","+", "4");
-                                                                auto temp2 = NonTerminal::get_new_temporary();
-                                                                (yyval.nonTerminal)->gen(temp2, "$rax");
-                                                                (yyval.nonTerminal)->gen("*"+temp2, to_string(curr_list_temporaries.size()));
-                                                                (yyval.nonTerminal)->gen("*"+temp, temp2, "+", "4");                        
+                                                                (yyval.nonTerminal)->gen_list_code(calculate_size(*(yyvsp[-2].type)),"*"+temp);
+                                                                // $$->gen("pushl", to_string(curr_list_temporaries.size()*calculate_size(*$5) + 4));
+                                                                // // $$->gen("stackpointer", "+xxx");
+                                                                // $$->gen("call", "allocmem", "1");
+                                                                // $$->gen("$rsp", "$rsp","+", "4");
+                                                                // auto temp2 = NonTerminal::get_new_temporary();
+                                                                // $$->gen(temp2, "$rax");
+                                                                // $$->gen("*"+temp2, to_string(curr_list_temporaries.size()));
+                                                                // $$->gen("*"+temp, temp2, "+", "4");                        
 
-                                                                for(int i=0;i<curr_list_temporaries.size();++i){
-                                                                    auto temp2 = NonTerminal::get_new_temporary();
-                                                                    // cout<<"line 399"<<$1->get_temporary()<<endl;
-                                                                    (yyval.nonTerminal)->gen(temp2, "*"+temp, "+", to_string(i*calculate_size(*(yyvsp[-2].type))));
-                                                                    (yyval.nonTerminal)->gen("*"+temp2, curr_list_temporaries[i]);
-                                                                }
-                                                                curr_list_temporaries.clear();
+                                                                // for(int i=0;i<curr_list_temporaries.size();++i){
+                                                                //     auto temp2 = NonTerminal::get_new_temporary();
+                                                                //     // cout<<"line 399"<<$1->get_temporary()<<endl;
+                                                                //     $$->gen(temp2, "*"+temp, "+", to_string(i*calculate_size(*$5)));
+                                                                //     $$->gen("*"+temp2, curr_list_temporaries[i]);
+                                                                // }
+                                                                // curr_list_temporaries.clear();
                                                             }
                                                             else if((yyvsp[-2].type)->datatype == "str"){
-                                                                (yyval.nonTerminal)->gen(temp, (yyvsp[0].nonTerminal)->get_temporary());
+                                                                (yyval.nonTerminal)->gen("*"+temp, (yyvsp[0].nonTerminal)->get_temporary());
                                                             }
                                                             else{
                                                                 (yyval.nonTerminal)->gen("*"+temp, (yyvsp[0].nonTerminal)->get_temporary());
                                                             }
                                                         }
-#line 2271 "parser.tab.c"
+#line 2277 "parser.tab.c"
     break;
 
   case 38: /* expr_stmt: atom DOT NAME COLON datatype  */
-#line 579 "parser.y"
+#line 585 "parser.y"
                                 {
                                     if((yyvsp[-4].nonTerminal)->get_lexeme() != "self"){
                                         cout << "Attribute assignment to non self variable at line no: " << (yyvsp[-4].nonTerminal)->get_line_no();
@@ -2280,11 +2286,11 @@ yyreduce:
                                     symbol_table_class* class_table = curr_symbol_table->get_parent_class_st();
                                     class_table->insert((yyvsp[-2].nonTerminal)->get_lexeme(), *(yyvsp[0].type), (yyvsp[-2].nonTerminal)->get_line_no(), false);
                                 }
-#line 2284 "parser.tab.c"
+#line 2290 "parser.tab.c"
     break;
 
   case 39: /* expr_3_or: augassign testlist  */
-#line 589 "parser.y"
+#line 595 "parser.y"
                                 { 
                                     (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
                                     int check=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_operator_type_augassign());
@@ -2293,124 +2299,124 @@ yyreduce:
                                     }
                                     (yyval.nonTerminal)->set_operator_type_augassign((yyvsp[-1].nonTerminal)->get_operator_type_augassign());
                                 }
-#line 2297 "parser.tab.c"
-    break;
-
-  case 40: /* expr_3_or: equal_testlist_star_expr  */
-#line 597 "parser.y"
-                           { (yyval.nonTerminal) = (yyvsp[0].nonTerminal); }
 #line 2303 "parser.tab.c"
     break;
 
+  case 40: /* expr_3_or: equal_testlist_star_expr  */
+#line 603 "parser.y"
+                           { (yyval.nonTerminal) = (yyvsp[0].nonTerminal); }
+#line 2309 "parser.tab.c"
+    break;
+
   case 41: /* equal_testlist_star_expr: EQUAL testlist_star_expr  */
-#line 600 "parser.y"
+#line 606 "parser.y"
                                                     { 
                                                         (yyval.nonTerminal)=(yyvsp[0].nonTerminal);
                                                         (yyval.nonTerminal)->set_operator_type_augassign(0);
                                                         op_3AC.push("=");
                                                         
                                                     }
-#line 2314 "parser.tab.c"
-    break;
-
-  case 42: /* testlist_star_expr: test  */
-#line 608 "parser.y"
-                         {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
 #line 2320 "parser.tab.c"
     break;
 
-  case 43: /* augassign: PLUS_EQUAL  */
-#line 611 "parser.y"
-                      {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(3);op_3AC.push("+=");}
+  case 42: /* testlist_star_expr: test  */
+#line 614 "parser.y"
+                         {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
 #line 2326 "parser.tab.c"
     break;
 
-  case 44: /* augassign: MINUS_EQUAL  */
-#line 612 "parser.y"
-              {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("-=");}
+  case 43: /* augassign: PLUS_EQUAL  */
+#line 617 "parser.y"
+                      {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(3);op_3AC.push("+=");}
 #line 2332 "parser.tab.c"
     break;
 
-  case 45: /* augassign: MULTIPLY_EQUAL  */
-#line 613 "parser.y"
-                 {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("*=");}
+  case 44: /* augassign: MINUS_EQUAL  */
+#line 618 "parser.y"
+              {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("-=");}
 #line 2338 "parser.tab.c"
     break;
 
-  case 46: /* augassign: DIVIDE_EQUAL  */
-#line 614 "parser.y"
-               {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("/=");}
+  case 45: /* augassign: MULTIPLY_EQUAL  */
+#line 619 "parser.y"
+                 {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("*=");}
 #line 2344 "parser.tab.c"
     break;
 
-  case 47: /* augassign: MODULO_EQUAL  */
-#line 615 "parser.y"
-               {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("%=");}
+  case 46: /* augassign: DIVIDE_EQUAL  */
+#line 620 "parser.y"
+               {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("/=");}
 #line 2350 "parser.tab.c"
     break;
 
-  case 48: /* augassign: BITWISE_AND_EQUAL  */
-#line 616 "parser.y"
-                   {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("&=");}
+  case 47: /* augassign: MODULO_EQUAL  */
+#line 621 "parser.y"
+               {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("%=");}
 #line 2356 "parser.tab.c"
     break;
 
-  case 49: /* augassign: BITWISE_OR_EQUAL  */
-#line 617 "parser.y"
-                   {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("|=");}
+  case 48: /* augassign: BITWISE_AND_EQUAL  */
+#line 622 "parser.y"
+                   {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("&=");}
 #line 2362 "parser.tab.c"
     break;
 
-  case 50: /* augassign: BITWISE_XOR_EQUAL  */
-#line 618 "parser.y"
-                    {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("^=");}
+  case 49: /* augassign: BITWISE_OR_EQUAL  */
+#line 623 "parser.y"
+                   {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("|=");}
 #line 2368 "parser.tab.c"
     break;
 
-  case 51: /* augassign: LEFT_SHIFT_EQUAL  */
-#line 619 "parser.y"
-                   {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("<<=");}
+  case 50: /* augassign: BITWISE_XOR_EQUAL  */
+#line 624 "parser.y"
+                    {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("^=");}
 #line 2374 "parser.tab.c"
     break;
 
-  case 52: /* augassign: RIGHT_SHIFT_EQUAL  */
-#line 620 "parser.y"
-                    {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push(">>=");}
+  case 51: /* augassign: LEFT_SHIFT_EQUAL  */
+#line 625 "parser.y"
+                   {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push("<<=");}
 #line 2380 "parser.tab.c"
     break;
 
-  case 53: /* augassign: POWER_EQUAL  */
-#line 621 "parser.y"
-              {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("*=");}
+  case 52: /* augassign: RIGHT_SHIFT_EQUAL  */
+#line 626 "parser.y"
+                    {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(2);op_3AC.push(">>=");}
 #line 2386 "parser.tab.c"
     break;
 
-  case 54: /* augassign: FLOOR_DIVIDE_EQUAL  */
-#line 622 "parser.y"
-                     {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("//=");}
+  case 53: /* augassign: POWER_EQUAL  */
+#line 627 "parser.y"
+              {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("*=");}
 #line 2392 "parser.tab.c"
     break;
 
-  case 55: /* flow_stmt: BREAK  */
-#line 626 "parser.y"
-                 { (yyval.nonTerminal) = (yyvsp[0].nonTerminal); (yyval.nonTerminal)->gen("goto", curr_loop_end_jump_label.top()); }
+  case 54: /* augassign: FLOOR_DIVIDE_EQUAL  */
+#line 628 "parser.y"
+                     {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_operator_type_augassign(1);op_3AC.push("//=");}
 #line 2398 "parser.tab.c"
     break;
 
-  case 56: /* flow_stmt: CONTINUE  */
-#line 627 "parser.y"
-           {(yyval.nonTerminal)=(yyvsp[0].nonTerminal); (yyval.nonTerminal)->gen("goto", curr_loop_start_jump_label.top());}
+  case 55: /* flow_stmt: BREAK  */
+#line 632 "parser.y"
+                 { (yyval.nonTerminal) = (yyvsp[0].nonTerminal); (yyval.nonTerminal)->gen("goto", curr_loop_end_jump_label.top()); }
 #line 2404 "parser.tab.c"
     break;
 
-  case 57: /* flow_stmt: return_stmt  */
-#line 628 "parser.y"
-              {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
+  case 56: /* flow_stmt: CONTINUE  */
+#line 633 "parser.y"
+           {(yyval.nonTerminal)=(yyvsp[0].nonTerminal); (yyval.nonTerminal)->gen("goto", curr_loop_start_jump_label.top());}
 #line 2410 "parser.tab.c"
     break;
 
+  case 57: /* flow_stmt: return_stmt  */
+#line 634 "parser.y"
+              {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
+#line 2416 "parser.tab.c"
+    break;
+
   case 58: /* return_stmt: RETURN  */
-#line 631 "parser.y"
+#line 637 "parser.y"
                     {
                         (yyval.nonTerminal) = new NonTerminal((yyvsp[0].nonTerminal)->get_line_no(), "Return");
                         (yyval.nonTerminal)->gen("mov48","-56(rbp)","regs");
@@ -2418,11 +2424,11 @@ yyreduce:
                         (yyval.nonTerminal)->gen("popq", "$rbp");
                         (yyval.nonTerminal)->gen("ret");
                     }
-#line 2422 "parser.tab.c"
+#line 2428 "parser.tab.c"
     break;
 
   case 59: /* return_stmt: RETURN testlist_star_expr  */
-#line 638 "parser.y"
+#line 644 "parser.y"
                             {
     (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
     (yyval.nonTerminal)->gen("movq", (yyvsp[0].nonTerminal)->get_temporary(),"$rax");
@@ -2431,49 +2437,49 @@ yyreduce:
     (yyval.nonTerminal)->gen("popq", "$rbp");
     (yyval.nonTerminal)->gen("ret");
 }
-#line 2435 "parser.tab.c"
-    break;
-
-  case 60: /* compound_stmt: if_stmt  */
-#line 648 "parser.y"
-                       {(yyval.nonTerminal) = (yyvsp[0].nonTerminal); if(curr_symbol_table == global_symbol_table) threeAC.push_back((yyval.nonTerminal)->get_code());}
 #line 2441 "parser.tab.c"
     break;
 
-  case 61: /* compound_stmt: while_stmt  */
-#line 649 "parser.y"
-             {(yyval.nonTerminal) = (yyvsp[0].nonTerminal); if(curr_symbol_table == global_symbol_table) threeAC.push_back((yyval.nonTerminal)->get_code());}
+  case 60: /* compound_stmt: if_stmt  */
+#line 654 "parser.y"
+                       {(yyval.nonTerminal) = (yyvsp[0].nonTerminal); if(curr_symbol_table == global_symbol_table) threeAC.push_back((yyval.nonTerminal)->get_code());}
 #line 2447 "parser.tab.c"
     break;
 
-  case 62: /* compound_stmt: for_stmt  */
-#line 650 "parser.y"
-           {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);if(curr_symbol_table == global_symbol_table) threeAC.push_back((yyval.nonTerminal)->get_code());}
+  case 61: /* compound_stmt: while_stmt  */
+#line 655 "parser.y"
+             {(yyval.nonTerminal) = (yyvsp[0].nonTerminal); if(curr_symbol_table == global_symbol_table) threeAC.push_back((yyval.nonTerminal)->get_code());}
 #line 2453 "parser.tab.c"
     break;
 
-  case 63: /* compound_stmt: funcdef  */
-#line 651 "parser.y"
-          {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
+  case 62: /* compound_stmt: for_stmt  */
+#line 656 "parser.y"
+           {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);if(curr_symbol_table == global_symbol_table) threeAC.push_back((yyval.nonTerminal)->get_code());}
 #line 2459 "parser.tab.c"
     break;
 
-  case 64: /* compound_stmt: classdef  */
-#line 652 "parser.y"
-           {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
+  case 63: /* compound_stmt: funcdef  */
+#line 657 "parser.y"
+          {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
 #line 2465 "parser.tab.c"
     break;
 
+  case 64: /* compound_stmt: classdef  */
+#line 658 "parser.y"
+           {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
+#line 2471 "parser.tab.c"
+    break;
+
   case 65: /* if_head: IF  */
-#line 655 "parser.y"
+#line 661 "parser.y"
             {
     curr_if_end_jump_label.push(NonTerminal::get_new_label());
 }
-#line 2473 "parser.tab.c"
+#line 2479 "parser.tab.c"
     break;
 
   case 66: /* if_stmt: if_head namedexpr_test COLON suite  */
-#line 659 "parser.y"
+#line 665 "parser.y"
                                             {
     (yyval.nonTerminal)=new NonTerminal((yyvsp[-2].nonTerminal)->get_line_no(), "If");
     (yyval.nonTerminal)->copy_code((yyvsp[-2].nonTerminal));
@@ -2482,11 +2488,11 @@ yyreduce:
     (yyval.nonTerminal)->gen(curr_if_end_jump_label.top());
     curr_if_end_jump_label.pop();                                                
 }
-#line 2486 "parser.tab.c"
+#line 2492 "parser.tab.c"
     break;
 
   case 67: /* if_stmt: if_head namedexpr_test COLON suite elif_namedexpr_test_colon_suite_one_or_more  */
-#line 667 "parser.y"
+#line 673 "parser.y"
                                                                                  {
     (yyval.nonTerminal)=new NonTerminal((yyvsp[-3].nonTerminal)->get_line_no(), "If");
     (yyval.nonTerminal)->copy_code((yyvsp[-3].nonTerminal));
@@ -2499,11 +2505,11 @@ yyreduce:
     (yyval.nonTerminal)->gen(curr_if_end_jump_label.top());
     curr_if_end_jump_label.pop();
 }
-#line 2503 "parser.tab.c"
+#line 2509 "parser.tab.c"
     break;
 
   case 68: /* if_stmt: if_head namedexpr_test COLON suite ELSE COLON suite  */
-#line 679 "parser.y"
+#line 685 "parser.y"
                                                        {
     (yyval.nonTerminal)=new NonTerminal((yyvsp[-5].nonTerminal)->get_line_no(), "If");
     (yyval.nonTerminal)->copy_code((yyvsp[-5].nonTerminal));
@@ -2516,11 +2522,11 @@ yyreduce:
     (yyval.nonTerminal)->gen(curr_if_end_jump_label.top());
     curr_if_end_jump_label.pop();
 }
-#line 2520 "parser.tab.c"
+#line 2526 "parser.tab.c"
     break;
 
   case 69: /* if_stmt: if_head namedexpr_test COLON suite elif_namedexpr_test_colon_suite_one_or_more ELSE COLON suite  */
-#line 691 "parser.y"
+#line 697 "parser.y"
                                                                                                   {
     (yyval.nonTerminal)=new NonTerminal((yyvsp[-6].nonTerminal)->get_line_no(), "If");
     (yyval.nonTerminal)->copy_code((yyvsp[-6].nonTerminal));
@@ -2534,11 +2540,11 @@ yyreduce:
     (yyval.nonTerminal)->gen(curr_if_end_jump_label.top());
     curr_if_end_jump_label.pop();
 }
-#line 2538 "parser.tab.c"
+#line 2544 "parser.tab.c"
     break;
 
   case 70: /* elif_namedexpr_test_colon_suite_one_or_more: ELIF namedexpr_test COLON suite elif_namedexpr_test_colon_suite_one_or_more  */
-#line 707 "parser.y"
+#line 713 "parser.y"
                                                                                                                           {
     (yyval.nonTerminal)=new NonTerminal((yyvsp[-3].nonTerminal)->get_line_no(), "elif");
     (yyval.nonTerminal)->copy_code((yyvsp[-3].nonTerminal));
@@ -2549,11 +2555,11 @@ yyreduce:
     (yyval.nonTerminal)->gen(label_elif);
     (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal));
 }
-#line 2553 "parser.tab.c"
+#line 2559 "parser.tab.c"
     break;
 
   case 71: /* elif_namedexpr_test_colon_suite_one_or_more: ELIF namedexpr_test COLON suite  */
-#line 717 "parser.y"
+#line 723 "parser.y"
                                   {
         // if(symbol_table_stack.size() == 0)
         // {
@@ -2570,17 +2576,18 @@ yyreduce:
     (yyval.nonTerminal)->gen(label_elif);
 
     }
-#line 2574 "parser.tab.c"
+#line 2580 "parser.tab.c"
     break;
 
   case 72: /* while_stmt: while_head namedexpr_test COLON suite  */
-#line 735 "parser.y"
+#line 741 "parser.y"
                                                    {
     (yyval.nonTerminal)=new NonTerminal((yyvsp[-2].nonTerminal)->get_line_no(), "While");
-    (yyval.nonTerminal)->copy_code((yyvsp[-2].nonTerminal));
 
     string label_start = curr_loop_start_jump_label.top();
     (yyval.nonTerminal)->gen_new_label(label_start);
+        (yyval.nonTerminal)->copy_code((yyvsp[-2].nonTerminal));
+
     curr_loop_start_jump_label.pop();
     string label_end = curr_loop_end_jump_label.top();
     curr_loop_end_jump_label.pop();
@@ -2589,17 +2596,18 @@ yyreduce:
     (yyval.nonTerminal)->gen("goto", label_start);
     (yyval.nonTerminal)->gen_new_label(label_end);
 }
-#line 2593 "parser.tab.c"
+#line 2600 "parser.tab.c"
     break;
 
   case 73: /* while_stmt: while_head namedexpr_test COLON suite ELSE COLON suite  */
-#line 749 "parser.y"
+#line 756 "parser.y"
                                                         {
     (yyval.nonTerminal)=new NonTerminal((yyvsp[-5].nonTerminal)->get_line_no(), "While");
-    (yyval.nonTerminal)->copy_code((yyvsp[-5].nonTerminal));
     string label_start = curr_loop_start_jump_label.top();
     curr_loop_start_jump_label.pop();
     (yyval.nonTerminal)->gen_new_label(label_start);
+        (yyval.nonTerminal)->copy_code((yyvsp[-5].nonTerminal));
+
     string label_end = curr_loop_end_jump_label.top();
     curr_loop_end_jump_label.pop();
     (yyval.nonTerminal)->gen("if not", "("+(yyvsp[-5].nonTerminal)->get_temporary()+")", "goto", label_end);
@@ -2608,20 +2616,20 @@ yyreduce:
     (yyval.nonTerminal)->gen_new_label(label_end);
     (yyval.nonTerminal)->copy_code((yyvsp[-1].nonTerminal));
 }
-#line 2612 "parser.tab.c"
+#line 2620 "parser.tab.c"
     break;
 
   case 74: /* while_head: WHILE  */
-#line 764 "parser.y"
+#line 772 "parser.y"
                   {
         curr_loop_start_jump_label.push(NonTerminal::get_new_label());
         curr_loop_end_jump_label.push(NonTerminal::get_new_label());
     }
-#line 2621 "parser.tab.c"
+#line 2629 "parser.tab.c"
     break;
 
   case 75: /* for_stmt: for_head exprlist IN RANGE OPEN_PAREN test COMMA test CLOSE_PAREN COLON suite  */
-#line 770 "parser.y"
+#line 778 "parser.y"
                                                                                         {
         if(!(yyvsp[-9].nonTerminal)->get_is_lvalue()){
             cout<<"Left hand side of for loop should be a lvalue at line no "<<(yyvsp[-9].nonTerminal)->get_line_no()<<endl;
@@ -2653,11 +2661,11 @@ yyreduce:
         (yyval.nonTerminal)->gen_new_label(label_end);
         // $$->print_code();
     }
-#line 2657 "parser.tab.c"
+#line 2665 "parser.tab.c"
     break;
 
   case 76: /* for_stmt: for_head exprlist IN RANGE OPEN_PAREN test CLOSE_PAREN COLON suite  */
-#line 801 "parser.y"
+#line 809 "parser.y"
                                                                     {
         if(!(yyvsp[-7].nonTerminal)->get_is_lvalue()){
             cout<<"Left hand side of for loop should be a lvalue at line no "<<(yyvsp[-7].nonTerminal)->get_line_no()<<endl;
@@ -2684,11 +2692,11 @@ yyreduce:
         (yyval.nonTerminal)->gen_new_label(label_end); 
         // $$->print_code();
     }
-#line 2688 "parser.tab.c"
+#line 2696 "parser.tab.c"
     break;
 
   case 77: /* for_stmt: for_head exprlist IN RANGE OPEN_PAREN test CLOSE_PAREN COLON suite ELSE COLON suite  */
-#line 827 "parser.y"
+#line 835 "parser.y"
                                                                                        {
         if(!(yyvsp[-10].nonTerminal)->get_is_lvalue()){
             cout<<"Left hand side of for loop should be a lvalue at line no "<<(yyvsp[-10].nonTerminal)->get_line_no()<<endl;
@@ -2715,11 +2723,11 @@ yyreduce:
         (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal)); 
         // $$->print_code();
     }
-#line 2719 "parser.tab.c"
+#line 2727 "parser.tab.c"
     break;
 
   case 78: /* for_stmt: for_head exprlist IN RANGE OPEN_PAREN test COMMA test CLOSE_PAREN COLON suite ELSE COLON suite  */
-#line 853 "parser.y"
+#line 861 "parser.y"
                                                                                                  {
         if(!(yyvsp[-12].nonTerminal)->get_is_lvalue()){
             cout<<"Left hand side of for loop should be a lvalue at line no "<<(yyvsp[-12].nonTerminal)->get_line_no()<<endl;
@@ -2751,40 +2759,40 @@ yyreduce:
         (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal)); 
         // $$->print_code();
     }
-#line 2755 "parser.tab.c"
+#line 2763 "parser.tab.c"
     break;
 
   case 79: /* for_head: FOR  */
-#line 904 "parser.y"
+#line 912 "parser.y"
              {
     string label_start = NonTerminal::get_new_label();
     string label_end = NonTerminal::get_new_label();
     curr_loop_start_jump_label.push(label_start);
     curr_loop_end_jump_label.push(label_end);
 }
-#line 2766 "parser.tab.c"
+#line 2774 "parser.tab.c"
     break;
 
   case 80: /* suite: simple_stmt  */
-#line 913 "parser.y"
+#line 921 "parser.y"
                    {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 2772 "parser.tab.c"
+#line 2780 "parser.tab.c"
     break;
 
   case 81: /* suite: NEWLINE INDENT stmts DEDENT  */
-#line 914 "parser.y"
+#line 922 "parser.y"
                                {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);}
-#line 2778 "parser.tab.c"
+#line 2786 "parser.tab.c"
     break;
 
   case 82: /* namedexpr_test: test  */
-#line 917 "parser.y"
+#line 925 "parser.y"
                      {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 2784 "parser.tab.c"
+#line 2792 "parser.tab.c"
     break;
 
   case 83: /* namedexpr_test: test COLONEQUAL test  */
-#line 918 "parser.y"
+#line 926 "parser.y"
                        {
     if(!(yyvsp[-2].nonTerminal)->get_is_lvalue()){
         cout << "Left hand side of walrus operator is not a lvalue at line no: " << (yyvsp[0].nonTerminal)->get_line_no() << endl;
@@ -2798,28 +2806,28 @@ yyreduce:
     auto type=(yyvsp[-2].nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype());
 if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same on line "<<(yyvsp[-2].nonTerminal)->get_line_no() << endl; exit(-1);} 
 (yyval.nonTerminal)->set_datatype(type);}
-#line 2802 "parser.tab.c"
+#line 2810 "parser.tab.c"
     break;
 
   case 84: /* test: or_test  */
-#line 934 "parser.y"
+#line 942 "parser.y"
               {
     (yyval.nonTerminal)=(yyvsp[0].nonTerminal);
     
     // $$->print_code();
     // cout << "\n\n\n";
 }
-#line 2813 "parser.tab.c"
+#line 2821 "parser.tab.c"
     break;
 
   case 85: /* or_test: and_test  */
-#line 942 "parser.y"
+#line 950 "parser.y"
                   {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 2819 "parser.tab.c"
+#line 2827 "parser.tab.c"
     break;
 
   case 86: /* or_test: and_test_star and_test  */
-#line 943 "parser.y"
+#line 951 "parser.y"
                           {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     (yyval.nonTerminal)->set_datatype({"bool",false});
@@ -2828,17 +2836,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-1].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "or", (yyvsp[0].nonTerminal)->get_temporary());    
 }
-#line 2832 "parser.tab.c"
+#line 2840 "parser.tab.c"
     break;
 
   case 87: /* and_test_star: and_test OR  */
-#line 953 "parser.y"
+#line 961 "parser.y"
                             {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false);  (yyval.nonTerminal)->set_datatype({"bool",false});}
-#line 2838 "parser.tab.c"
+#line 2846 "parser.tab.c"
     break;
 
   case 88: /* and_test_star: and_test_star and_test OR  */
-#line 954 "parser.y"
+#line 962 "parser.y"
                             {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);
     (yyval.nonTerminal)->set_datatype({"bool",false});
@@ -2847,17 +2855,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-2].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "or", (yyvsp[-1].nonTerminal)->get_temporary());
 }
-#line 2851 "parser.tab.c"
+#line 2859 "parser.tab.c"
     break;
 
   case 89: /* and_test: not_test  */
-#line 963 "parser.y"
+#line 971 "parser.y"
                    {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 2857 "parser.tab.c"
+#line 2865 "parser.tab.c"
     break;
 
   case 90: /* and_test: and_not_test_plus not_test  */
-#line 964 "parser.y"
+#line 972 "parser.y"
                              {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     (yyval.nonTerminal)->set_datatype({"bool",false});
@@ -2866,17 +2874,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-1].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "and", (yyvsp[0].nonTerminal)->get_temporary());
 }
-#line 2870 "parser.tab.c"
+#line 2878 "parser.tab.c"
     break;
 
   case 91: /* and_not_test_plus: not_test AND  */
-#line 974 "parser.y"
+#line 982 "parser.y"
                                  {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false); (yyval.nonTerminal)->set_datatype({"bool",false});}
-#line 2876 "parser.tab.c"
+#line 2884 "parser.tab.c"
     break;
 
   case 92: /* and_not_test_plus: and_not_test_plus not_test AND  */
-#line 975 "parser.y"
+#line 983 "parser.y"
                                      {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);
     (yyval.nonTerminal)->set_datatype({"bool",false});
@@ -2885,23 +2893,23 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-2].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "and", (yyvsp[-1].nonTerminal)->get_temporary());
 }
-#line 2889 "parser.tab.c"
+#line 2897 "parser.tab.c"
     break;
 
   case 93: /* not_test: not_plus_comparison  */
-#line 984 "parser.y"
+#line 992 "parser.y"
                                 {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 2895 "parser.tab.c"
+#line 2903 "parser.tab.c"
     break;
 
   case 94: /* not_test: comparison  */
-#line 985 "parser.y"
+#line 993 "parser.y"
                 {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 2901 "parser.tab.c"
+#line 2909 "parser.tab.c"
     break;
 
   case 95: /* not_plus_comparison: NOT comparison  */
-#line 988 "parser.y"
+#line 996 "parser.y"
                                       {
     (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
     (yyval.nonTerminal)->set_is_lvalue(false);
@@ -2910,11 +2918,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[0].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), "not", old_temp);  /*TODO: is "not" as operator fine?*/
 }
-#line 2914 "parser.tab.c"
+#line 2922 "parser.tab.c"
     break;
 
   case 96: /* not_plus_comparison: NOT not_plus_comparison  */
-#line 996 "parser.y"
+#line 1004 "parser.y"
                             {
     (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
     (yyval.nonTerminal)->set_datatype({"bool",false});
@@ -2922,11 +2930,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[0].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), "not", old_temp);  /*TODO: is "not" as operator fine?*/
 }
-#line 2926 "parser.tab.c"
+#line 2934 "parser.tab.c"
     break;
 
   case 97: /* comparison: comp_op_expr_plus expr  */
-#line 1005 "parser.y"
+#line 1013 "parser.y"
                                    {
     (yyval.nonTerminal)=(yyvsp[-1].nonTerminal);
     Type type;
@@ -2952,28 +2960,28 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     }
     op_3AC.pop();
 }
-#line 2956 "parser.tab.c"
+#line 2964 "parser.tab.c"
     break;
 
   case 98: /* comparison: expr  */
-#line 1030 "parser.y"
+#line 1038 "parser.y"
        {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 2962 "parser.tab.c"
+#line 2970 "parser.tab.c"
     break;
 
   case 99: /* comp_op_expr_plus: expr comp_op  */
-#line 1033 "parser.y"
+#line 1041 "parser.y"
                                 {
     (yyval.nonTerminal)=(yyvsp[-1].nonTerminal);
     (yyval.nonTerminal)->set_is_lvalue(false);
 
     op_3AC.push((yyvsp[0].nonTerminal)->get_lexeme());
 }
-#line 2973 "parser.tab.c"
+#line 2981 "parser.tab.c"
     break;
 
   case 100: /* comp_op_expr_plus: comp_op_expr_plus expr comp_op  */
-#line 1039 "parser.y"
+#line 1047 "parser.y"
                                  {
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
     Type type;
@@ -2999,71 +3007,71 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push((yyvsp[0].nonTerminal)->get_lexeme());
 }
-#line 3003 "parser.tab.c"
+#line 3011 "parser.tab.c"
     break;
 
   case 101: /* comp_op: GREATER_THAN  */
-#line 1066 "parser.y"
+#line 1074 "parser.y"
                       {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3009 "parser.tab.c"
+#line 3017 "parser.tab.c"
     break;
 
   case 102: /* comp_op: LESS_THAN  */
-#line 1067 "parser.y"
+#line 1075 "parser.y"
             {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3015 "parser.tab.c"
+#line 3023 "parser.tab.c"
     break;
 
   case 103: /* comp_op: EQUAL_EQUAL  */
-#line 1068 "parser.y"
+#line 1076 "parser.y"
               {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3021 "parser.tab.c"
+#line 3029 "parser.tab.c"
     break;
 
   case 104: /* comp_op: GREATER_THAN_EQUAL  */
-#line 1069 "parser.y"
+#line 1077 "parser.y"
                      {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3027 "parser.tab.c"
+#line 3035 "parser.tab.c"
     break;
 
   case 105: /* comp_op: LESS_THAN_EQUAL  */
-#line 1070 "parser.y"
+#line 1078 "parser.y"
                     {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3033 "parser.tab.c"
+#line 3041 "parser.tab.c"
     break;
 
   case 106: /* comp_op: NOTEQUAL  */
-#line 1071 "parser.y"
+#line 1079 "parser.y"
             {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3039 "parser.tab.c"
+#line 3047 "parser.tab.c"
     break;
 
   case 107: /* comp_op: IN  */
-#line 1072 "parser.y"
+#line 1080 "parser.y"
         {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3045 "parser.tab.c"
+#line 3053 "parser.tab.c"
     break;
 
   case 108: /* comp_op: NOT IN  */
-#line 1073 "parser.y"
+#line 1081 "parser.y"
           {(yyval.nonTerminal) = (yyvsp[0].nonTerminal); (yyval.nonTerminal)->set_lexeme((yyvsp[-1].nonTerminal)->get_lexeme() + (yyvsp[0].nonTerminal)->get_lexeme()); /*TODO: chances of making mistakes, should use alternate strategy?*/}
-#line 3051 "parser.tab.c"
+#line 3059 "parser.tab.c"
     break;
 
   case 109: /* comp_op: IS  */
-#line 1074 "parser.y"
+#line 1082 "parser.y"
         {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3057 "parser.tab.c"
+#line 3065 "parser.tab.c"
     break;
 
   case 110: /* comp_op: IS NOT  */
-#line 1075 "parser.y"
+#line 1083 "parser.y"
            {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_lexeme((yyvsp[-1].nonTerminal)->get_lexeme() + (yyvsp[0].nonTerminal)->get_lexeme()); /*TODO: chances of making mistakes, should use alternate strategy?*/}
-#line 3063 "parser.tab.c"
+#line 3071 "parser.tab.c"
     break;
 
   case 111: /* expr: r_expr xor_expr  */
-#line 1080 "parser.y"
+#line 1088 "parser.y"
                          {
     cout<<"expr\n";(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype());
@@ -3077,17 +3085,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-1].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "|", (yyvsp[0].nonTerminal)->get_temporary());
 }
-#line 3081 "parser.tab.c"
+#line 3089 "parser.tab.c"
     break;
 
   case 112: /* expr: xor_expr  */
-#line 1093 "parser.y"
+#line 1101 "parser.y"
             {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 3087 "parser.tab.c"
+#line 3095 "parser.tab.c"
     break;
 
   case 113: /* r_expr: r_expr xor_expr BITWISE_OR  */
-#line 1096 "parser.y"
+#line 1104 "parser.y"
                                     {
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3101,17 +3109,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-2].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "|", (yyvsp[-1].nonTerminal)->get_temporary());
 }
-#line 3105 "parser.tab.c"
+#line 3113 "parser.tab.c"
     break;
 
   case 114: /* r_expr: xor_expr BITWISE_OR  */
-#line 1109 "parser.y"
+#line 1117 "parser.y"
                        {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false);auto datatype=(yyval.nonTerminal)->get_datatype();if(!(datatype.datatype == "int"||datatype.datatype=="bool")){cout << "Bitwise or operator cannot be applied on line "<<(yyvsp[-1].nonTerminal)->get_line_no() << endl; exit(-1);}}
-#line 3111 "parser.tab.c"
+#line 3119 "parser.tab.c"
     break;
 
   case 115: /* xor_expr: x_expr and_expr  */
-#line 1112 "parser.y"
+#line 1120 "parser.y"
                            {
     (yyval.nonTerminal)=(yyvsp[-1].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype());
@@ -3125,17 +3133,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-1].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "^", (yyvsp[0].nonTerminal)->get_temporary());
 }
-#line 3129 "parser.tab.c"
+#line 3137 "parser.tab.c"
     break;
 
   case 116: /* xor_expr: and_expr  */
-#line 1125 "parser.y"
+#line 1133 "parser.y"
             {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3135 "parser.tab.c"
+#line 3143 "parser.tab.c"
     break;
 
   case 117: /* x_expr: x_expr and_expr BITWISE_XOR  */
-#line 1128 "parser.y"
+#line 1136 "parser.y"
                                      {
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3149,17 +3157,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-2].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "^", (yyvsp[-1].nonTerminal)->get_temporary());
 }
-#line 3153 "parser.tab.c"
+#line 3161 "parser.tab.c"
     break;
 
   case 118: /* x_expr: and_expr BITWISE_XOR  */
-#line 1141 "parser.y"
+#line 1149 "parser.y"
                          {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal);(yyval.nonTerminal)->set_is_lvalue(false); auto datatype=(yyval.nonTerminal)->get_datatype();if(!(datatype.datatype == "int"||datatype.datatype=="bool")){cout << "Bitwise xor operator cannot be applied on line "<<(yyvsp[-1].nonTerminal)->get_line_no() << endl; exit(-1);}}
-#line 3159 "parser.tab.c"
+#line 3167 "parser.tab.c"
     break;
 
   case 119: /* and_expr: a_expr shift_expr  */
-#line 1144 "parser.y"
+#line 1152 "parser.y"
                              {
     (yyval.nonTerminal)=(yyvsp[-1].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype());
@@ -3173,17 +3181,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-1].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "&", (yyvsp[0].nonTerminal)->get_temporary());
 }
-#line 3177 "parser.tab.c"
+#line 3185 "parser.tab.c"
     break;
 
   case 120: /* and_expr: shift_expr  */
-#line 1157 "parser.y"
+#line 1165 "parser.y"
                 {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3183 "parser.tab.c"
+#line 3191 "parser.tab.c"
     break;
 
   case 121: /* a_expr: a_expr shift_expr BITWISE_AND  */
-#line 1160 "parser.y"
+#line 1168 "parser.y"
                                          {
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3197,17 +3205,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     auto old_temp = (yyvsp[-2].nonTerminal)->get_temporary();
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, "&", (yyvsp[-1].nonTerminal)->get_temporary());
 }
-#line 3201 "parser.tab.c"
+#line 3209 "parser.tab.c"
     break;
 
   case 122: /* a_expr: shift_expr BITWISE_AND  */
-#line 1173 "parser.y"
+#line 1181 "parser.y"
                              {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false);auto datatype=(yyval.nonTerminal)->get_datatype();if(!(datatype.datatype == "int"||datatype.datatype=="bool")){cout << "Bitwise and operator cannot be applied on line "<<(yyvsp[-1].nonTerminal)->get_line_no() << endl; exit(-1);}}
-#line 3207 "parser.tab.c"
+#line 3215 "parser.tab.c"
     break;
 
   case 123: /* shift_expr: lr_shift arith_expr  */
-#line 1176 "parser.y"
+#line 1184 "parser.y"
                                     {
     (yyval.nonTerminal)=(yyvsp[-1].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype());
@@ -3222,17 +3230,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, op_3AC.top(), (yyvsp[0].nonTerminal)->get_temporary());
     op_3AC.pop();
 }
-#line 3226 "parser.tab.c"
+#line 3234 "parser.tab.c"
     break;
 
   case 124: /* shift_expr: arith_expr  */
-#line 1190 "parser.y"
+#line 1198 "parser.y"
               {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3232 "parser.tab.c"
+#line 3240 "parser.tab.c"
     break;
 
   case 125: /* lr_shift: arith_expr LEFT_SHIFT  */
-#line 1193 "parser.y"
+#line 1201 "parser.y"
                                  {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     (yyval.nonTerminal)->set_is_lvalue(false);
@@ -3244,11 +3252,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
 
     op_3AC.push("<<");
 }
-#line 3248 "parser.tab.c"
+#line 3256 "parser.tab.c"
     break;
 
   case 126: /* lr_shift: arith_expr RIGHT_SHIFT  */
-#line 1204 "parser.y"
+#line 1212 "parser.y"
                              {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     (yyval.nonTerminal)->set_is_lvalue(false);
@@ -3260,11 +3268,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
 
     op_3AC.push(">>");
 }
-#line 3264 "parser.tab.c"
+#line 3272 "parser.tab.c"
     break;
 
   case 127: /* lr_shift: lr_shift arith_expr LEFT_SHIFT  */
-#line 1215 "parser.y"
+#line 1223 "parser.y"
                                  {
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3280,11 +3288,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push("<<");
 }
-#line 3284 "parser.tab.c"
+#line 3292 "parser.tab.c"
     break;
 
   case 128: /* lr_shift: lr_shift arith_expr RIGHT_SHIFT  */
-#line 1230 "parser.y"
+#line 1238 "parser.y"
                                   {
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3300,11 +3308,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push(">>");
 }
-#line 3304 "parser.tab.c"
+#line 3312 "parser.tab.c"
     break;
 
   case 129: /* arith_expr: pm_term term  */
-#line 1247 "parser.y"
+#line 1255 "parser.y"
                         {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype());
@@ -3319,17 +3327,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, op_3AC.top(), (yyvsp[0].nonTerminal)->get_temporary());
     op_3AC.pop();  
 }
-#line 3323 "parser.tab.c"
+#line 3331 "parser.tab.c"
     break;
 
   case 130: /* arith_expr: term  */
-#line 1261 "parser.y"
+#line 1269 "parser.y"
         {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 3329 "parser.tab.c"
+#line 3337 "parser.tab.c"
     break;
 
   case 131: /* pm_term: term PLUS  */
-#line 1264 "parser.y"
+#line 1272 "parser.y"
                     {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     (yyval.nonTerminal)->set_is_lvalue(false);
@@ -3341,11 +3349,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
 
     op_3AC.push("+");
 }
-#line 3345 "parser.tab.c"
+#line 3353 "parser.tab.c"
     break;
 
   case 132: /* pm_term: term MINUS  */
-#line 1275 "parser.y"
+#line 1283 "parser.y"
                  {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     (yyval.nonTerminal)->set_is_lvalue(false);
@@ -3357,11 +3365,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
 
     op_3AC.push("-");
 }
-#line 3361 "parser.tab.c"
+#line 3369 "parser.tab.c"
     break;
 
   case 133: /* pm_term: pm_term term PLUS  */
-#line 1286 "parser.y"
+#line 1294 "parser.y"
                     {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3377,11 +3385,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push("+");   
 }
-#line 3381 "parser.tab.c"
+#line 3389 "parser.tab.c"
     break;
 
   case 134: /* pm_term: pm_term term MINUS  */
-#line 1301 "parser.y"
+#line 1309 "parser.y"
                           {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
     if(datatype.datatype == "ERROR"||datatype.datatype=="str"){
@@ -3396,17 +3404,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push("-");
 }
-#line 3400 "parser.tab.c"
+#line 3408 "parser.tab.c"
     break;
 
   case 135: /* term: factor  */
-#line 1317 "parser.y"
+#line 1325 "parser.y"
              {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3406 "parser.tab.c"
+#line 3414 "parser.tab.c"
     break;
 
   case 136: /* term: op_fac factor  */
-#line 1318 "parser.y"
+#line 1326 "parser.y"
                  {
     (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype());
@@ -3421,35 +3429,35 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(), old_temp, op_3AC.top(), (yyvsp[0].nonTerminal)->get_temporary());
     op_3AC.pop();
 }
-#line 3425 "parser.tab.c"
+#line 3433 "parser.tab.c"
     break;
 
   case 137: /* op_fac: factor MULTIPLY  */
-#line 1334 "parser.y"
+#line 1342 "parser.y"
                         {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false); op_3AC.push("*");}
-#line 3431 "parser.tab.c"
+#line 3439 "parser.tab.c"
     break;
 
   case 138: /* op_fac: factor DIVIDE  */
-#line 1335 "parser.y"
+#line 1343 "parser.y"
                  {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false); op_3AC.push("/");}
-#line 3437 "parser.tab.c"
+#line 3445 "parser.tab.c"
     break;
 
   case 139: /* op_fac: factor MODULO  */
-#line 1336 "parser.y"
+#line 1344 "parser.y"
                  {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false); op_3AC.push("%");}
-#line 3443 "parser.tab.c"
+#line 3451 "parser.tab.c"
     break;
 
   case 140: /* op_fac: factor FLOOR_DIVIDE  */
-#line 1337 "parser.y"
+#line 1345 "parser.y"
                          {(yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->set_is_lvalue(false); op_3AC.push("//");}
-#line 3449 "parser.tab.c"
+#line 3457 "parser.tab.c"
     break;
 
   case 141: /* op_fac: op_fac factor MULTIPLY  */
-#line 1338 "parser.y"
+#line 1346 "parser.y"
                             {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3466,11 +3474,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push("*");
 }
-#line 3470 "parser.tab.c"
+#line 3478 "parser.tab.c"
     break;
 
   case 142: /* op_fac: op_fac factor DIVIDE  */
-#line 1354 "parser.y"
+#line 1362 "parser.y"
                          {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3487,11 +3495,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push("/");
 }
-#line 3491 "parser.tab.c"
+#line 3499 "parser.tab.c"
     break;
 
   case 143: /* op_fac: op_fac factor MODULO  */
-#line 1370 "parser.y"
+#line 1378 "parser.y"
                          {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3508,11 +3516,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push("%");
 }
-#line 3512 "parser.tab.c"
+#line 3520 "parser.tab.c"
     break;
 
   case 144: /* op_fac: op_fac factor FLOOR_DIVIDE  */
-#line 1386 "parser.y"
+#line 1394 "parser.y"
                                  {
     (yyval.nonTerminal) = (yyvsp[-2].nonTerminal);
     auto datatype=(yyval.nonTerminal)->compare_datatype((yyvsp[-1].nonTerminal)->get_datatype());
@@ -3529,13 +3537,13 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     op_3AC.pop();
     op_3AC.push("//");
 }
-#line 3533 "parser.tab.c"
+#line 3541 "parser.tab.c"
     break;
 
   case 145: /* factor: PLUS factor  */
-#line 1404 "parser.y"
+#line 1412 "parser.y"
                     {
-    (yyval.nonTerminal) =(yyvsp[-1].nonTerminal);
+    (yyval.nonTerminal) =(yyvsp[0].nonTerminal);
     auto datatype=(yyvsp[0].nonTerminal)->get_datatype();
     if(datatype.datatype=="ERROR"){
         cout << "Unary plus operator cannot be applied on line "<<(yyvsp[-1].nonTerminal)->get_line_no() << endl;
@@ -3543,14 +3551,14 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     }
     (yyval.nonTerminal)->set_datatype(datatype);
 }
-#line 3547 "parser.tab.c"
+#line 3555 "parser.tab.c"
     break;
 
   case 146: /* factor: MINUS factor  */
-#line 1413 "parser.y"
+#line 1421 "parser.y"
                 {
     // cout<<$2->get_lexeme()<<endl;
-    (yyval.nonTerminal) =(yyvsp[-1].nonTerminal);
+    (yyval.nonTerminal) =(yyvsp[0].nonTerminal);
     auto datatype=(yyvsp[0].nonTerminal)->get_datatype();
     if(datatype.datatype=="ERROR"||datatype.datatype=="str")
     {
@@ -3562,12 +3570,12 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),"-",(yyvsp[0].nonTerminal)->get_temporary());
 
 }
-#line 3566 "parser.tab.c"
+#line 3574 "parser.tab.c"
     break;
 
   case 147: /* factor: BITWISE_NOT factor  */
-#line 1427 "parser.y"
-                       {(yyval.nonTerminal) =(yyvsp[-1].nonTerminal);
+#line 1435 "parser.y"
+                       {(yyval.nonTerminal) =(yyvsp[0].nonTerminal);
     (yyval.nonTerminal)->set_is_lvalue(false);
     auto datatype=(yyvsp[0].nonTerminal)->get_datatype();
     if(!(datatype.datatype=="bool"&&datatype.datatype=="int")){
@@ -3578,23 +3586,23 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
 
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),"~",(yyvsp[0].nonTerminal)->get_temporary());
 }
-#line 3582 "parser.tab.c"
+#line 3590 "parser.tab.c"
     break;
 
   case 148: /* factor: power  */
-#line 1438 "parser.y"
+#line 1446 "parser.y"
         {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
-#line 3588 "parser.tab.c"
+#line 3596 "parser.tab.c"
     break;
 
   case 149: /* power: atom_expr  */
-#line 1441 "parser.y"
+#line 1449 "parser.y"
                     {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);/*$1->print_code();*/}
-#line 3594 "parser.tab.c"
+#line 3602 "parser.tab.c"
     break;
 
   case 150: /* power: atom_expr POWER factor  */
-#line 1442 "parser.y"
+#line 1450 "parser.y"
                             {
     // $1->print_code();
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
@@ -3611,17 +3619,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),temp,"**",(yyvsp[0].nonTerminal)->get_temporary());
     
 }
-#line 3615 "parser.tab.c"
+#line 3623 "parser.tab.c"
     break;
 
   case 151: /* power: atom  */
-#line 1458 "parser.y"
+#line 1466 "parser.y"
        {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 3621 "parser.tab.c"
+#line 3629 "parser.tab.c"
     break;
 
   case 152: /* power: atom POWER factor  */
-#line 1459 "parser.y"
+#line 1467 "parser.y"
                     {
     (yyval.nonTerminal)=(yyvsp[-2].nonTerminal);
     auto temp=(yyvsp[-2].nonTerminal)->get_temporary();
@@ -3636,11 +3644,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal));
     (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),temp,"**",(yyvsp[0].nonTerminal)->get_temporary());
     }
-#line 3640 "parser.tab.c"
+#line 3648 "parser.tab.c"
     break;
 
   case 153: /* atom_expr: atom DOT NAME  */
-#line 1475 "parser.y"
+#line 1483 "parser.y"
                          {
         Type type = (yyvsp[-2].nonTerminal)->get_datatype();
         if(!type.is_class){
@@ -3682,16 +3690,17 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
                 (yyval.nonTerminal)->set_is_ptr(true);
             }
             (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyvsp[-2].nonTerminal)->get_temporary(),"+",to_string(entry->get_offset()));
+            
             (yyval.nonTerminal)->set_temporary("*"+(yyval.nonTerminal)->get_temporary());
             
         }
     // $$->print_code();
     }
-#line 3691 "parser.tab.c"
+#line 3700 "parser.tab.c"
     break;
 
   case 154: /* atom_expr: atom_expr DOT NAME  */
-#line 1522 "parser.y"
+#line 1531 "parser.y"
                      {
     // cout<<"atom_expr DOT NAME\n";
         Type type = (yyvsp[-2].nonTerminal)->get_datatype();
@@ -3733,11 +3742,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
             (yyval.nonTerminal)->set_temporary("*"+(yyval.nonTerminal)->get_temporary());
         }
     }
-#line 3737 "parser.tab.c"
+#line 3746 "parser.tab.c"
     break;
 
   case 155: /* atom_expr: atom OPEN_BRACKET test CLOSE_BRACKET  */
-#line 1564 "parser.y"
+#line 1573 "parser.y"
                                        {
         Type type = (yyvsp[-3].nonTerminal)->get_datatype();
         if(!type.is_list){
@@ -3759,11 +3768,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
         (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyvsp[-3].nonTerminal)->get_temporary(),"+",old_temp);
         (yyval.nonTerminal)->set_temporary("*"+(yyval.nonTerminal)->get_temporary());        
 }
-#line 3763 "parser.tab.c"
+#line 3772 "parser.tab.c"
     break;
 
   case 156: /* atom_expr: atom_expr OPEN_BRACKET test CLOSE_BRACKET  */
-#line 1586 "parser.y"
+#line 1595 "parser.y"
                                              {
         Type type = (yyvsp[-3].nonTerminal)->get_datatype();
         if(!type.is_list){
@@ -3785,11 +3794,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
         (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyvsp[-3].nonTerminal)->get_temporary(),"+",old_temp);
         (yyval.nonTerminal)->set_temporary("*"+(yyval.nonTerminal)->get_temporary());  
     }
-#line 3789 "parser.tab.c"
+#line 3798 "parser.tab.c"
     break;
 
   case 157: /* atom_expr: atom OPEN_PAREN arglist CLOSE_PAREN  */
-#line 1609 "parser.y"
+#line 1618 "parser.y"
                                       {
     // $3->print_code();
     if(is_print_function.top())
@@ -3853,11 +3862,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     function_arg_counter.pop();
     is_print_function.pop();
     }
-#line 3857 "parser.tab.c"
+#line 3866 "parser.tab.c"
     break;
 
   case 158: /* atom_expr: atom OPEN_PAREN CLOSE_PAREN  */
-#line 1672 "parser.y"
+#line 1681 "parser.y"
                               {
     if(is_print_function.top())
     {
@@ -3907,11 +3916,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     function_arg_counter.pop();
     is_print_function.pop();
     }
-#line 3911 "parser.tab.c"
+#line 3920 "parser.tab.c"
     break;
 
   case 159: /* atom_expr: atom_expr OPEN_PAREN CLOSE_PAREN  */
-#line 1721 "parser.y"
+#line 1730 "parser.y"
                                    {
     // $1->print_code();
     Type type = (yyvsp[-2].nonTerminal)->get_datatype();  // TODO: probably won't be needed if things already checked in 'atom' and 'arglist'pe();
@@ -3944,11 +3953,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     function_arg_counter.pop();
     is_print_function.pop();
 }
-#line 3948 "parser.tab.c"
+#line 3957 "parser.tab.c"
     break;
 
   case 160: /* atom_expr: atom_expr OPEN_PAREN arglist CLOSE_PAREN  */
-#line 1754 "parser.y"
+#line 1763 "parser.y"
                                             {
     // cout<<"line 1adf"<<endl;
         Type type = (yyvsp[-3].nonTerminal)->get_datatype();  // TODO: probably won't be needed if things already checked in 'atom' and 'arglist'pe();
@@ -3984,35 +3993,37 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
         function_arg_counter.pop();  
         is_print_function.pop();
 }
-#line 3988 "parser.tab.c"
+#line 3997 "parser.tab.c"
     break;
 
   case 161: /* atom: OPEN_PAREN testlist_comp CLOSE_PAREN  */
-#line 1791 "parser.y"
-                                            {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);cout<<(yyval.nonTerminal)->get_datatype().datatype<<endl;}
-#line 3994 "parser.tab.c"
+#line 1800 "parser.y"
+                                            {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);cout<<(yyval.nonTerminal)->get_datatype().datatype<<endl; 
+// curr_list_temporaries.pop_back();
+}
+#line 4005 "parser.tab.c"
     break;
 
   case 162: /* atom: OPEN_PAREN CLOSE_PAREN  */
-#line 1792 "parser.y"
+#line 1803 "parser.y"
                             {(yyval.nonTerminal)=new NonTerminal((yyvsp[0].nonTerminal)->get_line_no(),{"",false,false,false,nullptr,nullptr}); }
-#line 4000 "parser.tab.c"
+#line 4011 "parser.tab.c"
     break;
 
   case 163: /* atom: OPEN_BRACKET testlist_comp CLOSE_BRACKET  */
-#line 1793 "parser.y"
+#line 1804 "parser.y"
                                             {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);(yyval.nonTerminal)->set_list(true);}
-#line 4006 "parser.tab.c"
+#line 4017 "parser.tab.c"
     break;
 
   case 164: /* atom: OPEN_BRACKET CLOSE_BRACKET  */
-#line 1794 "parser.y"
+#line 1805 "parser.y"
                                 {(yyval.nonTerminal)=new NonTerminal((yyvsp[0].nonTerminal)->get_line_no(), {"",true,false,false,nullptr,nullptr});}
-#line 4012 "parser.tab.c"
+#line 4023 "parser.tab.c"
     break;
 
   case 165: /* atom: NAME  */
-#line 1795 "parser.y"
+#line 1806 "parser.y"
       {
         if((yyvsp[0].nonTerminal)->get_lexeme() == "print"){
             // is_print_function = true;
@@ -4074,59 +4085,59 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
             }
         }  
     }
-#line 4078 "parser.tab.c"
+#line 4089 "parser.tab.c"
     break;
 
   case 166: /* atom: NUMBER  */
-#line 1856 "parser.y"
+#line 1867 "parser.y"
          {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"int",false}); (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyval.nonTerminal)->get_lexeme());}
-#line 4084 "parser.tab.c"
+#line 4095 "parser.tab.c"
     break;
 
   case 167: /* atom: string_one_or_more  */
-#line 1857 "parser.y"
+#line 1868 "parser.y"
                         {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 4090 "parser.tab.c"
+#line 4101 "parser.tab.c"
     break;
 
   case 168: /* atom: NONE  */
-#line 1858 "parser.y"
+#line 1869 "parser.y"
         {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"None",false});}
-#line 4096 "parser.tab.c"
+#line 4107 "parser.tab.c"
     break;
 
   case 169: /* atom: TRUE_  */
-#line 1859 "parser.y"
+#line 1870 "parser.y"
             {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"bool",false});(yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyval.nonTerminal)->get_lexeme());}
-#line 4102 "parser.tab.c"
+#line 4113 "parser.tab.c"
     break;
 
   case 170: /* atom: FALSE_  */
-#line 1860 "parser.y"
+#line 1871 "parser.y"
             {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"bool",false});(yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyval.nonTerminal)->get_lexeme());}
-#line 4108 "parser.tab.c"
+#line 4119 "parser.tab.c"
     break;
 
   case 171: /* atom: REAL_NUMBER  */
-#line 1861 "parser.y"
+#line 1872 "parser.y"
                 {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"float",false});(yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyval.nonTerminal)->get_lexeme());}
-#line 4114 "parser.tab.c"
+#line 4125 "parser.tab.c"
     break;
 
   case 172: /* string_one_or_more: string_one_or_more STRING  */
-#line 1865 "parser.y"
+#line 1876 "parser.y"
                                                 {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);auto temp = (yyvsp[-1].nonTerminal)-> get_temporary();(yyval.nonTerminal)->set_lexeme((yyvsp[-1].nonTerminal)->get_lexeme() + (yyvsp[0].nonTerminal)->get_lexeme()); (yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),temp,"+",(yyvsp[0].nonTerminal)->get_lexeme());}
-#line 4120 "parser.tab.c"
+#line 4131 "parser.tab.c"
     break;
 
   case 173: /* string_one_or_more: STRING  */
-#line 1866 "parser.y"
+#line 1877 "parser.y"
             {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"str",false});(yyval.nonTerminal)->gen((yyval.nonTerminal)->set_temporary(),(yyval.nonTerminal)->get_lexeme());}
-#line 4126 "parser.tab.c"
+#line 4137 "parser.tab.c"
     break;
 
   case 174: /* testlist_comp: named_star_or comma_named_star_comma  */
-#line 1869 "parser.y"
+#line 1880 "parser.y"
                                                     {
     if((yyvsp[0].nonTerminal)->get_datatype().datatype == "COMMA"){
         (yyval.nonTerminal) =(yyvsp[-1].nonTerminal);
@@ -4135,72 +4146,74 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
         (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);
         (yyval.nonTerminal)->set_datatype((yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype()));
         (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal));
+        (yyval.nonTerminal)->copy_cur_temp((yyvsp[0].nonTerminal));
     }
 }
-#line 4141 "parser.tab.c"
+#line 4153 "parser.tab.c"
     break;
 
   case 175: /* testlist_comp: named_star_or  */
-#line 1879 "parser.y"
+#line 1891 "parser.y"
                 {
     (yyval.nonTerminal) =(yyvsp[0].nonTerminal);
 }
-#line 4149 "parser.tab.c"
-    break;
-
-  case 176: /* comma_named_star_comma: comma_named_star COMMA  */
-#line 1885 "parser.y"
-                                                {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);}
-#line 4155 "parser.tab.c"
-    break;
-
-  case 177: /* comma_named_star_comma: comma_named_star  */
-#line 1886 "parser.y"
-                    {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
 #line 4161 "parser.tab.c"
     break;
 
-  case 178: /* comma_named_star_comma: COMMA  */
-#line 1887 "parser.y"
-        {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"COMMA",false});}
+  case 176: /* comma_named_star_comma: comma_named_star COMMA  */
+#line 1897 "parser.y"
+                                                {(yyval.nonTerminal)=(yyvsp[-1].nonTerminal);}
 #line 4167 "parser.tab.c"
     break;
 
+  case 177: /* comma_named_star_comma: comma_named_star  */
+#line 1898 "parser.y"
+                    {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);}
+#line 4173 "parser.tab.c"
+    break;
+
+  case 178: /* comma_named_star_comma: COMMA  */
+#line 1899 "parser.y"
+        {(yyval.nonTerminal) = (yyvsp[0].nonTerminal);(yyval.nonTerminal)->set_datatype({"COMMA",false});}
+#line 4179 "parser.tab.c"
+    break;
+
   case 179: /* named_star_or: namedexpr_test  */
-#line 1889 "parser.y"
+#line 1901 "parser.y"
                                 {
     (yyval.nonTerminal) =(yyvsp[0].nonTerminal);
-    curr_list_temporaries.push_back((yyvsp[0].nonTerminal)->get_temporary());    
+    cout<<(yyvsp[0].nonTerminal)->get_temporary()<<"->"<<(yyvsp[0].nonTerminal)->get_datatype().datatype<<endl;
+    // curr_list_temporaries.push_back($1->get_temporary());    
 }
-#line 4176 "parser.tab.c"
+#line 4189 "parser.tab.c"
     break;
 
   case 180: /* comma_named_star: COMMA named_star_or  */
-#line 1896 "parser.y"
-                                        {(yyval.nonTerminal)= (yyvsp[0].nonTerminal);}
-#line 4182 "parser.tab.c"
+#line 1909 "parser.y"
+                                        {(yyval.nonTerminal)= (yyvsp[0].nonTerminal); }
+#line 4195 "parser.tab.c"
     break;
 
   case 181: /* comma_named_star: comma_named_star COMMA named_star_or  */
-#line 1897 "parser.y"
-                                        {(yyval.nonTerminal)=(yyvsp[-2].nonTerminal); (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal)); (yyval.nonTerminal)->set_datatype((yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype()));}
-#line 4188 "parser.tab.c"
+#line 1910 "parser.y"
+                                        {(yyval.nonTerminal)=(yyvsp[-2].nonTerminal); (yyval.nonTerminal)->copy_code((yyvsp[0].nonTerminal));(yyval.nonTerminal)->curr_list_temporaries_push((yyvsp[0].nonTerminal)->get_temporary()); (yyval.nonTerminal)->set_datatype((yyval.nonTerminal)->compare_datatype((yyvsp[0].nonTerminal)->get_datatype()));}
+#line 4201 "parser.tab.c"
     break;
 
   case 182: /* exprlist: expr  */
-#line 1900 "parser.y"
+#line 1913 "parser.y"
                {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 4194 "parser.tab.c"
+#line 4207 "parser.tab.c"
     break;
 
   case 183: /* testlist: test  */
-#line 1904 "parser.y"
+#line 1917 "parser.y"
                {(yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
-#line 4200 "parser.tab.c"
+#line 4213 "parser.tab.c"
     break;
 
   case 184: /* classdef: classdef_head suite  */
-#line 1910 "parser.y"
+#line 1923 "parser.y"
                               {
     (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
     if(symbol_table_stack.size() == 0){
@@ -4211,95 +4224,100 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
     symbol_table_stack.pop();
     curr_symbol_table=symbol_table_stack.top();
 }
-#line 4215 "parser.tab.c"
+#line 4228 "parser.tab.c"
     break;
 
   case 185: /* classdef_head: CLASS NAME COLON  */
-#line 1922 "parser.y"
+#line 1935 "parser.y"
                                 {
     auto new_class = curr_symbol_table->create_new_class((yyvsp[-1].nonTerminal)->get_lexeme(), nullptr);
+    cout<<(yyvsp[-1].nonTerminal)->get_line_no()<<endl;
+    new_class->set_line_no((yyvsp[-1].nonTerminal)->get_line_no());
     symbol_table_stack.push(new_class); curr_symbol_table = new_class;
+    
 }
-#line 4224 "parser.tab.c"
+#line 4240 "parser.tab.c"
     break;
 
   case 186: /* classdef_head: CLASS NAME OPEN_PAREN CLOSE_PAREN COLON  */
-#line 1926 "parser.y"
+#line 1942 "parser.y"
                                           {
     auto new_class = curr_symbol_table->create_new_class((yyvsp[-3].nonTerminal)->get_lexeme(), nullptr);
+    new_class->set_line_no((yyvsp[-3].nonTerminal)->get_line_no());
     symbol_table_stack.push(new_class); curr_symbol_table = new_class;
 }
-#line 4233 "parser.tab.c"
+#line 4250 "parser.tab.c"
     break;
 
   case 187: /* classdef_head: CLASS NAME OPEN_PAREN NAME CLOSE_PAREN COLON  */
-#line 1930 "parser.y"
+#line 1947 "parser.y"
                                                {
     auto parent_class = curr_symbol_table->lookup_class((yyvsp[-2].nonTerminal)->get_lexeme()); /*if(parent_class == nullptr){cout << "Base class not defined\n";}*/
     auto new_class = curr_symbol_table->create_new_class((yyvsp[-4].nonTerminal)->get_lexeme(), parent_class);
+    new_class->set_line_no((yyvsp[-4].nonTerminal)->get_line_no());
     symbol_table_stack.push(new_class); curr_symbol_table = new_class;
 }
-#line 4243 "parser.tab.c"
-    break;
-
-  case 188: /* arglist: argument comma_arg  */
-#line 1937 "parser.y"
-                            {push_argument((yyvsp[-1].nonTerminal)); (yyval.nonTerminal) = (yyvsp[0].nonTerminal); (yyval.nonTerminal)->copy_code((yyvsp[-1].nonTerminal));}
-#line 4249 "parser.tab.c"
-    break;
-
-  case 189: /* arglist: argument comma_arg COMMA  */
-#line 1938 "parser.y"
-                           {push_argument((yyvsp[-2].nonTerminal)); (yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->copy_code((yyvsp[-2].nonTerminal));}
-#line 4255 "parser.tab.c"
-    break;
-
-  case 190: /* arglist: argument  */
-#line 1939 "parser.y"
-            {push_argument((yyvsp[0].nonTerminal)); (yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
 #line 4261 "parser.tab.c"
     break;
 
-  case 191: /* arglist: argument COMMA  */
-#line 1940 "parser.y"
-                    {push_argument((yyvsp[-1].nonTerminal)); (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);}
+  case 188: /* arglist: argument comma_arg  */
+#line 1955 "parser.y"
+                            {push_argument((yyvsp[-1].nonTerminal)); (yyval.nonTerminal) = (yyvsp[0].nonTerminal); (yyval.nonTerminal)->copy_code((yyvsp[-1].nonTerminal));}
 #line 4267 "parser.tab.c"
     break;
 
-  case 192: /* comma_arg: COMMA argument  */
-#line 1943 "parser.y"
-                            {push_argument((yyvsp[0].nonTerminal)); (yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
+  case 189: /* arglist: argument comma_arg COMMA  */
+#line 1956 "parser.y"
+                           {push_argument((yyvsp[-2].nonTerminal)); (yyval.nonTerminal) = (yyvsp[-1].nonTerminal); (yyval.nonTerminal)->copy_code((yyvsp[-2].nonTerminal));}
 #line 4273 "parser.tab.c"
     break;
 
-  case 193: /* comma_arg: COMMA argument comma_arg  */
-#line 1944 "parser.y"
-                            {push_argument((yyvsp[-1].nonTerminal));(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->copy_code((yyvsp[-1].nonTerminal));}
+  case 190: /* arglist: argument  */
+#line 1957 "parser.y"
+            {push_argument((yyvsp[0].nonTerminal)); (yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
 #line 4279 "parser.tab.c"
     break;
 
+  case 191: /* arglist: argument COMMA  */
+#line 1958 "parser.y"
+                    {push_argument((yyvsp[-1].nonTerminal)); (yyval.nonTerminal) = (yyvsp[-1].nonTerminal);}
+#line 4285 "parser.tab.c"
+    break;
+
+  case 192: /* comma_arg: COMMA argument  */
+#line 1961 "parser.y"
+                            {push_argument((yyvsp[0].nonTerminal)); (yyval.nonTerminal)=(yyvsp[0].nonTerminal);}
+#line 4291 "parser.tab.c"
+    break;
+
+  case 193: /* comma_arg: COMMA argument comma_arg  */
+#line 1962 "parser.y"
+                            {push_argument((yyvsp[-1].nonTerminal));(yyval.nonTerminal)=(yyvsp[0].nonTerminal);(yyval.nonTerminal)->copy_code((yyvsp[-1].nonTerminal));}
+#line 4297 "parser.tab.c"
+    break;
+
   case 194: /* argument: test  */
-#line 1947 "parser.y"
+#line 1965 "parser.y"
                 {
     (yyval.nonTerminal) = (yyvsp[0].nonTerminal);
 }
-#line 4287 "parser.tab.c"
+#line 4305 "parser.tab.c"
     break;
 
   case 195: /* func_body_suite: simple_stmt  */
-#line 1953 "parser.y"
+#line 1971 "parser.y"
                              { (yyval.nonTerminal) = (yyvsp[0].nonTerminal); }
-#line 4293 "parser.tab.c"
+#line 4311 "parser.tab.c"
     break;
 
   case 196: /* func_body_suite: NEWLINE INDENT stmts DEDENT  */
-#line 1954 "parser.y"
+#line 1972 "parser.y"
                               { (yyval.nonTerminal) = (yyvsp[-1].nonTerminal); }
-#line 4299 "parser.tab.c"
+#line 4317 "parser.tab.c"
     break;
 
   case 197: /* datatype: NAME  */
-#line 1957 "parser.y"
+#line 1975 "parser.y"
                {
     (yyval.type) = new Type; (yyval.type)->datatype = (yyvsp[0].nonTerminal)->get_lexeme(); 
     (yyval.type)->is_list = false;
@@ -4312,11 +4330,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
         }
     }
 }
-#line 4316 "parser.tab.c"
+#line 4334 "parser.tab.c"
     break;
 
   case 198: /* datatype: NAME OPEN_BRACKET NAME CLOSE_BRACKET  */
-#line 1969 "parser.y"
+#line 1987 "parser.y"
                                        {
     if((yyvsp[-3].nonTerminal)->get_lexeme() != "list"){
         cout << "Illegal type declaration at line no: " << (yyvsp[-3].nonTerminal)->get_line_no() << endl;
@@ -4332,11 +4350,11 @@ if(type.datatype == "ERROR"){cout << "Datatypes of both sides of := are not same
         }
     }
 }
-#line 4336 "parser.tab.c"
+#line 4354 "parser.tab.c"
     break;
 
 
-#line 4340 "parser.tab.c"
+#line 4358 "parser.tab.c"
 
       default: break;
     }
@@ -4529,7 +4547,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 1986 "parser.y"
+#line 2004 "parser.y"
 
 
  void print_verbose() {
@@ -4591,11 +4609,13 @@ void print_help(){
 }
 void print_threeAC()
 {
+     ofstream file;
+    file.open("../output/ThreeAC.txt");
     for(auto &code_block: threeAC){
         for(auto &code: code_block){
-            code->print_raw();
+            code->print_raw(file);
         }
-        cout << endl;
+        file << endl;
     }
 }
 int main(int argc, char* argv[]) {    
@@ -4643,7 +4663,8 @@ int main(int argc, char* argv[]) {
     
     yyparse();
     print_threeAC();
-    global_symbol_table->print();
+    global_symbol_table->make_csv();
+    // global_symbol_table->print();
     // cout << function_arg_counter.size() << endl;
     // root->make_tree(output_file_path);
 

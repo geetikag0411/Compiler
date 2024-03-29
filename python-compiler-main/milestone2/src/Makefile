@@ -25,3 +25,4 @@ NonTerminal.o: NonTerminal.cpp symbol_table.o
 
 clean:
 	@rm -f *.o parser.tab.c parser.tab.h lex.yy.c *.gch parser
+	@rm ../output/*

@@ -15,12 +15,44 @@ class NonTerminal
     vector<ThreeAC *> m_code;
     string temporary;
     bool m_is_ptr{false};    
+    vector<string> curr_list_temporaries;
+    
 
 public:
     NonTerminal(int line_no) : m_line_no(line_no) {}
     NonTerminal(int line_no, string lexeme) : m_line_no(line_no), m_lexeme(lexeme) {}
     NonTerminal(int line_no, Type datatype) : m_line_no(line_no), m_datatype(datatype) {}
     NonTerminal(int line_no, string lexeme, Type datatype) : m_line_no(line_no), m_lexeme(lexeme), m_datatype(datatype) {}
+    void curr_list_temporaries_push(string temp)
+    {
+        curr_list_temporaries.push_back(temp);
+    }
+   void copy_cur_temp(NonTerminal *other)
+    {
+        for (auto temp : other->curr_list_temporaries)
+        {
+            curr_list_temporaries.push_back(temp);
+        }
+    }
+    void gen_list_code(int size, string t1)
+    {
+        //t1= $1->get_temporary();
+        gen("pushl", to_string(curr_list_temporaries.size()*(size)+4));                                                // $$->gen("stackpointer", "+xxx");
+        gen("call", "allocmem", "1");
+        gen("$rsp", "$rsp","+", "4");
+        auto temp = NonTerminal::get_new_temporary();
+        gen(temp, "$rax");
+        gen("*"+temp, to_string(curr_list_temporaries.size()));
+        gen(t1, temp, "+", "4");
+        for(int i=0;i<curr_list_temporaries.size();++i)
+        {
+            auto temp2 = NonTerminal::get_new_temporary();
+            // cout<<"line 399"<<$1->get_temporary()<<endl;
+            gen(temp2, t1, "+", to_string(i*size));
+            gen("*"+temp2, curr_list_temporaries[i]);
+        }
+         curr_list_temporaries.clear();
+    }
     static string get_new_temporary()
     {
         static int temp_count = 0;
@@ -221,12 +253,12 @@ public:
     {
         m_code.push_back(new ThreeAC(label));
     }
-    void print_code(){
-        for(auto &code: m_code){
-            code->print_raw();
-        }
-        cout<<'\n';
-    }
+    // void print_code(){
+    //     for(auto &code: m_code){
+    //         code->print_raw();
+    //     }
+    //     cout<<'\n';
+    // }
 };
 
 #endif

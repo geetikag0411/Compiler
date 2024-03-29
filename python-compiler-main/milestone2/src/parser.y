@@ -31,7 +31,7 @@
     stack<bool> is_print_function;
     vector<vector<ThreeAC*>> threeAC;
     stack<string> op_3AC;
-    vector<string> curr_list_temporaries;
+    // vector<string> curr_list_temporaries;
     void add_len_function(symbol_table_global* global_symbol_table){
         symbol_table_function* len_func = global_symbol_table->create_new_function("len");
         Type type;
@@ -197,6 +197,7 @@ funcdef: funcdef_head parameters COLON func_body_suite  {
                                                             Type new_type;
                                                             new_type.datatype = "None";
                                                             curr_symbol_table->set_return_type(new_type);
+                                                            curr_symbol_table->set_line_no($1->get_line_no());
                                                             if(symbol_table_stack.size() == 0){
                                                                  cout << "trying to pop empty stack" << endl;
                                                                 exit(-1);
@@ -225,6 +226,7 @@ funcdef: funcdef_head parameters COLON func_body_suite  {
                                                                             cout << "trying to pop empty stack" << endl; 
                                                                             exit(-1);
                                                                         }
+                                                                        curr_symbol_table->set_line_no($1->get_line_no());
                                                                         $$ = $1;                                                       
                                                                         $$->gen("pushq", "$rbp");
                                                                         $$->gen("$rbp","$rsp");
@@ -302,7 +304,7 @@ typedargslist: NAME COLON datatype  {
             new_type.class_table = parent_class_st;
             auto offset= curr_symbol_table->get_offset();
             curr_symbol_table->add_parameter($1->get_lexeme(),new_type,$1->get_line_no());
-            $$->gen("mov8",to_string(offset)+"(rbp)",$1->get_lexeme());
+            $$->gen("mov8",to_string(offset+16)+"(rbp)",$1->get_lexeme());
         }
 ;
 
@@ -487,6 +489,7 @@ expr_stmt: testlist_star_expr expr_3_or {
                         }
 | NAME COLON datatype EQUAL testlist_star_expr  {
                                                     $$ = $1;
+                                                    $$->copy_cur_temp($5);
                                                     if(curr_symbol_table->lookup($1->get_lexeme()) != nullptr){
                                                         cout << "Variable redeclaration in same scope at line no: " << $5->get_line_no() << endl;
                                                         exit(-1);
@@ -506,22 +509,23 @@ expr_stmt: testlist_star_expr expr_3_or {
                                                     $$->copy_code($5);
                                                     if($3->is_list){
                                                         $$->set_temporary($1->get_lexeme());
-                                                        $$->gen("pushl", to_string(curr_list_temporaries.size()*(calculate_size(*$3))+4));
-                                                        // $$->gen("stackpointer", "+xxx");
-                                                        $$->gen("call", "allocmem", "1");
-                                                        $$->gen("$rsp", "$rsp","+", "4");
-                                                        auto temp = NonTerminal::get_new_temporary();
-                                                        $$->gen(temp, "$rax");
-                                                        $$->gen("*"+temp, to_string(curr_list_temporaries.size()));
-                                                        $$->gen($1->get_temporary(), temp, "+", "4");
+                                                        $$->gen_list_code(calculate_size(*$3),$1->get_temporary());
+                                                        // $$->gen("pushl", to_string(curr_list_temporaries.size()*(calculate_size(*$3))+4));
+                                                        // // $$->gen("stackpointer", "+xxx");
+                                                        // $$->gen("call", "allocmem", "1");
+                                                        // $$->gen("$rsp", "$rsp","+", "4");
+                                                        // auto temp = NonTerminal::get_new_temporary();
+                                                        // $$->gen(temp, "$rax");
+                                                        // $$->gen("*"+temp, to_string(curr_list_temporaries.size()));
+                                                        // $$->gen($1->get_temporary(), temp, "+", "4");
 
-                                                        for(int i=0;i<curr_list_temporaries.size();++i){
-                                                            auto temp = NonTerminal::get_new_temporary();
-                                                            // cout<<"line 399"<<$1->get_temporary()<<endl;
-                                                            $$->gen(temp, $1->get_temporary(), "+", to_string(i*calculate_size(*$3)));
-                                                            $$->gen("*"+temp, curr_list_temporaries[i]);
-                                                        }
-                                                        curr_list_temporaries.clear();
+                                                        // for(int i=0;i<curr_list_temporaries.size();++i){
+                                                        //     auto temp = NonTerminal::get_new_temporary();
+                                                        //     // cout<<"line 399"<<$1->get_temporary()<<endl;
+                                                        //     $$->gen(temp, $1->get_temporary(), "+", to_string(i*calculate_size(*$3)));
+                                                        //     $$->gen("*"+temp, curr_list_temporaries[i]);
+                                                        // }
+                                                        // curr_list_temporaries.clear();
                                                     }
                                                     else{
                                                         $$->gen($1->get_lexeme(), $5->get_temporary());
@@ -550,27 +554,29 @@ expr_stmt: testlist_star_expr expr_3_or {
                                                             $$ = $7;
                                                             auto temp = NonTerminal::get_new_temporary();
                                                             $$->gen(temp, $1->get_temporary(), "+", to_string(offset));
+                                                            $$->copy_cur_temp($7);
                                                             if($5->is_list){
                                                                 $$->set_temporary($1->get_lexeme());
-                                                                $$->gen("pushl", to_string(curr_list_temporaries.size()*calculate_size(*$5) + 4));
-                                                                // $$->gen("stackpointer", "+xxx");
-                                                                $$->gen("call", "allocmem", "1");
-                                                                $$->gen("$rsp", "$rsp","+", "4");
-                                                                auto temp2 = NonTerminal::get_new_temporary();
-                                                                $$->gen(temp2, "$rax");
-                                                                $$->gen("*"+temp2, to_string(curr_list_temporaries.size()));
-                                                                $$->gen("*"+temp, temp2, "+", "4");                        
+                                                                $$->gen_list_code(calculate_size(*$5),"*"+temp);
+                                                                // $$->gen("pushl", to_string(curr_list_temporaries.size()*calculate_size(*$5) + 4));
+                                                                // // $$->gen("stackpointer", "+xxx");
+                                                                // $$->gen("call", "allocmem", "1");
+                                                                // $$->gen("$rsp", "$rsp","+", "4");
+                                                                // auto temp2 = NonTerminal::get_new_temporary();
+                                                                // $$->gen(temp2, "$rax");
+                                                                // $$->gen("*"+temp2, to_string(curr_list_temporaries.size()));
+                                                                // $$->gen("*"+temp, temp2, "+", "4");                        
 
-                                                                for(int i=0;i<curr_list_temporaries.size();++i){
-                                                                    auto temp2 = NonTerminal::get_new_temporary();
-                                                                    // cout<<"line 399"<<$1->get_temporary()<<endl;
-                                                                    $$->gen(temp2, "*"+temp, "+", to_string(i*calculate_size(*$5)));
-                                                                    $$->gen("*"+temp2, curr_list_temporaries[i]);
-                                                                }
-                                                                curr_list_temporaries.clear();
+                                                                // for(int i=0;i<curr_list_temporaries.size();++i){
+                                                                //     auto temp2 = NonTerminal::get_new_temporary();
+                                                                //     // cout<<"line 399"<<$1->get_temporary()<<endl;
+                                                                //     $$->gen(temp2, "*"+temp, "+", to_string(i*calculate_size(*$5)));
+                                                                //     $$->gen("*"+temp2, curr_list_temporaries[i]);
+                                                                // }
+                                                                // curr_list_temporaries.clear();
                                                             }
                                                             else if($5->datatype == "str"){
-                                                                $$->gen(temp, $7->get_temporary());
+                                                                $$->gen("*"+temp, $7->get_temporary());
                                                             }
                                                             else{
                                                                 $$->gen("*"+temp, $7->get_temporary());
@@ -734,10 +740,11 @@ elif_namedexpr_test_colon_suite_one_or_more: ELIF namedexpr_test COLON suite eli
 
 while_stmt: while_head namedexpr_test COLON suite  {
     $$=new NonTerminal($2->get_line_no(), "While");
-    $$->copy_code($2);
 
     string label_start = curr_loop_start_jump_label.top();
     $$->gen_new_label(label_start);
+        $$->copy_code($2);
+
     curr_loop_start_jump_label.pop();
     string label_end = curr_loop_end_jump_label.top();
     curr_loop_end_jump_label.pop();
@@ -748,10 +755,11 @@ while_stmt: while_head namedexpr_test COLON suite  {
 }
 |while_head namedexpr_test COLON suite ELSE COLON suite {
     $$=new NonTerminal($2->get_line_no(), "While");
-    $$->copy_code($2);
     string label_start = curr_loop_start_jump_label.top();
     curr_loop_start_jump_label.pop();
     $$->gen_new_label(label_start);
+        $$->copy_code($2);
+
     string label_end = curr_loop_end_jump_label.top();
     curr_loop_end_jump_label.pop();
     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_end);
@@ -1402,7 +1410,7 @@ op_fac:factor MULTIPLY  {$$ = $1; $$->set_is_lvalue(false); op_3AC.push("*");}
 ;
 
 factor: PLUS factor {
-    $$ =$1;
+    $$ =$2;
     auto datatype=$2->get_datatype();
     if(datatype.datatype=="ERROR"){
         cout << "Unary plus operator cannot be applied on line "<<$1->get_line_no() << endl;
@@ -1412,7 +1420,7 @@ factor: PLUS factor {
 }
 | MINUS factor  {
     // cout<<$2->get_lexeme()<<endl;
-    $$ =$1;
+    $$ =$2;
     auto datatype=$2->get_datatype();
     if(datatype.datatype=="ERROR"||datatype.datatype=="str")
     {
@@ -1424,7 +1432,7 @@ factor: PLUS factor {
     $$->gen($$->set_temporary(),"-",$2->get_temporary());
 
 }
-| BITWISE_NOT factor   {$$ =$1;
+| BITWISE_NOT factor   {$$ =$2;
     $$->set_is_lvalue(false);
     auto datatype=$2->get_datatype();
     if(!(datatype.datatype=="bool"&&datatype.datatype=="int")){
@@ -1513,6 +1521,7 @@ atom_expr: atom DOT NAME {
                 $$->set_is_ptr(true);
             }
             $$->gen($$->set_temporary(),$1->get_temporary(),"+",to_string(entry->get_offset()));
+            
             $$->set_temporary("*"+$$->get_temporary());
             
         }
@@ -1788,7 +1797,9 @@ atom_expr: atom DOT NAME {
 }
 ;
 
-atom: OPEN_PAREN testlist_comp CLOSE_PAREN  {$$=$2;cout<<$$->get_datatype().datatype<<endl;}
+atom: OPEN_PAREN testlist_comp CLOSE_PAREN  {$$=$2;cout<<$$->get_datatype().datatype<<endl; 
+// curr_list_temporaries.pop_back();
+}
 | OPEN_PAREN CLOSE_PAREN    {$$=new NonTerminal($2->get_line_no(),{"",false,false,false,nullptr,nullptr}); }
 | OPEN_BRACKET testlist_comp CLOSE_BRACKET  {$$=$2;$$->set_list(true);}
 | OPEN_BRACKET CLOSE_BRACKET    {$$=new NonTerminal($2->get_line_no(), {"",true,false,false,nullptr,nullptr});}
@@ -1874,6 +1885,7 @@ testlist_comp: named_star_or comma_named_star_comma {
         $$ = $1;
         $$->set_datatype($$->compare_datatype($2->get_datatype()));
         $$->copy_code($2);
+        $$->copy_cur_temp($2);
     }
 }
 | named_star_or {
@@ -1888,13 +1900,14 @@ comma_named_star_comma: comma_named_star COMMA  {$$=$1;}
 ;
 named_star_or: namedexpr_test   {
     $$ =$1;
-    curr_list_temporaries.push_back($1->get_temporary());    
+    cout<<$1->get_temporary()<<"->"<<$1->get_datatype().datatype<<endl;
+    // curr_list_temporaries.push_back($1->get_temporary());    
 }
 // | star_expr {$$ =$1;}
 ;
 
-comma_named_star: COMMA named_star_or   {$$= $2;}
-| comma_named_star COMMA named_star_or  {$$=$1; $$->copy_code($3); $$->set_datatype($$->compare_datatype($3->get_datatype()));}
+comma_named_star: COMMA named_star_or   {$$= $2; }
+| comma_named_star COMMA named_star_or  {$$=$1; $$->copy_code($3);$$->curr_list_temporaries_push($3->get_temporary()); $$->set_datatype($$->compare_datatype($3->get_datatype()));}
 ;
 
 exprlist: expr {$$=$1;}
@@ -1921,15 +1934,20 @@ classdef: classdef_head suite {
 
 classdef_head: CLASS NAME COLON {
     auto new_class = curr_symbol_table->create_new_class($2->get_lexeme(), nullptr);
+    cout<<$2->get_line_no()<<endl;
+    new_class->set_line_no($2->get_line_no());
     symbol_table_stack.push(new_class); curr_symbol_table = new_class;
+    
 }
 | CLASS NAME OPEN_PAREN CLOSE_PAREN COLON {
     auto new_class = curr_symbol_table->create_new_class($2->get_lexeme(), nullptr);
+    new_class->set_line_no($2->get_line_no());
     symbol_table_stack.push(new_class); curr_symbol_table = new_class;
 }
 | CLASS NAME OPEN_PAREN NAME CLOSE_PAREN COLON {
     auto parent_class = curr_symbol_table->lookup_class($4->get_lexeme()); /*if(parent_class == nullptr){cout << "Base class not defined\n";}*/
     auto new_class = curr_symbol_table->create_new_class($2->get_lexeme(), parent_class);
+    new_class->set_line_no($2->get_line_no());
     symbol_table_stack.push(new_class); curr_symbol_table = new_class;
 }
 ;
@@ -2044,11 +2062,13 @@ void print_help(){
 }
 void print_threeAC()
 {
+     ofstream file;
+    file.open("../output/ThreeAC.txt");
     for(auto &code_block: threeAC){
         for(auto &code: code_block){
-            code->print_raw();
+            code->print_raw(file);
         }
-        cout << endl;
+        file << endl;
     }
 }
 int main(int argc, char* argv[]) {    
@@ -2096,7 +2116,8 @@ int main(int argc, char* argv[]) {
     
     yyparse();
     print_threeAC();
-    global_symbol_table->print();
+    global_symbol_table->make_csv();
+    // global_symbol_table->print();
     // cout << function_arg_counter.size() << endl;
     // root->make_tree(output_file_path);
 

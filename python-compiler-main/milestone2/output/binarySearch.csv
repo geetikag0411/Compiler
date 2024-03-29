@@ -1,0 +1,7 @@
+Systactic Category(token),Lexeme,Type,Line No,Offset
+Id,array,int[],1,0
+Id,he,int,7,24
+Id,high,int,1,16
+Id,low,int,1,12
+Id,mid,int,3,20
+Id,x,int,1,8

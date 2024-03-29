@@ -1,0 +1,16 @@
+len:
+begin function
+pushq $rbp
+$rbp =  $rsp
+$rsp = $rsp - 68
+mov48 regs -56($rbp)
+movq 16($rbp) a
+a = a - 4
+b =  *a
+movq b $rax
+mov48 -56(rbp) regs
+mov8 $rbp $rsp
+popq $rbp
+ret
+end function
+
