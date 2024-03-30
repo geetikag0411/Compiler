@@ -1,3 +1,4 @@
 Systactic Category(token),Lexeme,Type,Line No,Offset
-Id,avg_value,float,28,4
-Id,min_value,float,25,0
+Id,array,int[],17,8
+Id,array2,int[],16,0
+Id,result,int,18,16

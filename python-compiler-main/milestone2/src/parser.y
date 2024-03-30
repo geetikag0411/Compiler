@@ -31,7 +31,6 @@
     stack<bool> is_print_function;
     vector<vector<ThreeAC*>> threeAC;
     stack<string> op_3AC;
-    // vector<string> curr_list_temporaries;
     void add_len_function(symbol_table_global* global_symbol_table){
         symbol_table_function* len_func = global_symbol_table->create_new_function("len");
         Type type;
@@ -1902,6 +1901,7 @@ named_star_or: namedexpr_test   {
     $$ =$1;
     cout<<$1->get_temporary()<<"->"<<$1->get_datatype().datatype<<endl;
     // curr_list_temporaries.push_back($1->get_temporary());    
+    $$->curr_list_temporaries_push($1->get_temporary());
 }
 // | star_expr {$$ =$1;}
 ;

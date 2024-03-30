@@ -1,3 +1,6 @@
 Systactic Category(token),Lexeme,Type,Line No,Offset
 Id,__name__,str,0,0
+Id,a,int,25,8
+Function,binarySearch,(int[]*int*int*int)->int,1,None
 Function,len,(any[])->int,Not Defined,None
+Function,main,()->None,14,None
