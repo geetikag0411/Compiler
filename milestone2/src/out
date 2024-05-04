@@ -1,0 +1,698 @@
+43,57c43,58
+<         len->gen("len:");
+<         len->gen("begin function");
+<         len->gen("pushq", "$rbp");
+<         len->gen("$rbp","$rsp");
+<         len->gen("$rsp","$rsp","-",to_string(12+56));      
+<         len->gen("mov48","regs","-56($rbp)"); 
+<         len->gen("movq","16($rbp)","a");
+<         len->gen("a","a","-","4");
+<         len->gen("b","*a");
+<         len->gen("movq","b","$rax");
+<         len->gen("mov48","-56(rbp)","regs");
+<         len->gen("mov8","$rbp","$rsp");
+<         len->gen("popq", "$rbp");
+<         len->gen("ret");
+<         len->gen("end function");
+---
+>         len->gen("len:", FUNCLABEL);
+>         // len->gen("begin function");
+>         len->gen("pushq", "$rbp",PUSH);
+>         len->gen("mov","$rbp","$rsp",MOV);
+>         len->gen("$rsp","$rsp","-",to_string(12+56), MOV);      
+>         len->gen("mov48","regs","-56($rbp)", MOV); 
+>         len->gen("movq","16($rbp)","a", MOV);
+>         // len->gen("a","16($rbp)");
+>         len->gen("a","a","-","4",EXPR);
+>         len->gen("b","*a",MOV);
+>         len->gen("movq","b","$rax", MOV);
+>         len->gen("mov48","-56(rbp)","regs", MOV);
+>         len->gen("mov8","$rbp","$rsp", MOV);
+>         len->gen("popq", "$rbp", POP);
+>         len->gen("ret", RET);
+>         // len->gen("end function");
+126c127
+<         arg->gen("push"+to_string(calculate_size(datatype,false)), arg->get_temporary());
+---
+>         arg->gen("push"+to_string(calculate_size(datatype,false)), arg->get_temporary(), PUSH);
+130,132c131,133
+<         result->gen("pushq", str2->get_temporary());
+<         result->gen("pushq", str1->get_temporary());
+<         result->gen("call", "strcmp", "2");
+---
+>         result->gen("pushq", str2->get_temporary(), PUSH);
+>         result->gen("pushq", str1->get_temporary(), PUSH);
+>         result->gen("call", "strcmp", "2", CALL);
+134,135c135,136
+<         result->gen("$rsp", "$rsp", "+", "16");
+<         result->gen(temp, "$rax");
+---
+>         result->gen("$rsp", "$rsp", "+", "16",EXPR);
+>         result->gen(temp, "$rax",MOV);
+138c139
+<             result->gen(result->set_temporary(), temp, "==", "0");
+---
+>             result->gen(result->set_temporary(), temp, "==", "0",EXPR);
+142c143
+<             result->gen(result->set_temporary(), temp, "!=", "0");
+---
+>             result->gen(result->set_temporary(), temp, "!=", "0",EXPR);
+146c147
+<             result->gen(result->set_temporary(), temp, "<", "0");
+---
+>             result->gen(result->set_temporary(), temp, "<", "0",EXPR);
+150c151
+<             result->gen(result->set_temporary(), temp, ">", "0");
+---
+>             result->gen(result->set_temporary(), temp, ">", "0",EXPR);
+154c155
+<             result->gen(result->set_temporary(), temp, "<=", "0");
+---
+>             result->gen(result->set_temporary(), temp, "<=", "0",EXPR);
+158c159
+<             result->gen(result->set_temporary(), temp, ">=", "0");
+---
+>             result->gen(result->set_temporary(), temp, ">=", "0",EXPR);
+204,205c205,206
+<                                                             $$->gen("pushq", "$rbp");
+<                                                             $$->gen("$rbp","$rsp");
+---
+>                                                             $$->gen("pushq", "$rbp",PUSH);
+>                                                             $$->gen("$rbp","$rsp",MOV);
+208,209c209,210
+<                                                             $$->gen("$rsp","$rsp","-",to_string(curr_symbol_table->get_offset()+56));      
+<                                                             $$->gen("mov48","regs","-56(rbp)");                                      
+---
+>                                                             $$->gen("$rsp","$rsp","-",to_string(curr_symbol_table->get_offset()+56),EXPR);      
+>                                                             $$->gen("mov48","regs","-56(rbp)",MOV);                                    
+213,217c214,218
+<                                                                 $$->gen("mov48","-56(rbp)","regs");
+<                                                                 $$->gen("mov8","$rbp","$rsp");
+<                                                                 $$->gen("popq", "$rbp");
+<                                                                 $$->gen("ret");
+<                                                                 $$->gen("end function");
+---
+>                                                                 $$->gen("mov48","-56(rbp)","regs", MOV);
+>                                                                 $$->gen("mov8","$rbp","$rsp", MOV);
+>                                                                 $$->gen("popq", "$rbp", POP);
+>                                                                 $$->gen("ret",RET);
+>                                                                 // $$->gen("end function");
+231,232c232,233
+<                                                                         $$->gen("pushq", "$rbp");
+<                                                                         $$->gen("$rbp","$rsp");
+---
+>                                                                         $$->gen("pushq", "$rbp", PUSH);
+>                                                                         $$->gen("$rbp","$rsp",MOV);
+234,235c235,236
+<                                                                         $$->gen("$rsp","$rsp","-",to_string(curr_symbol_table->get_offset()+56));
+<                                                                         $$->gen("mov48","regs","-56(rbp)");
+---
+>                                                                         $$->gen("$rsp","$rsp","-",to_string(curr_symbol_table->get_offset()+56),EXPR);
+>                                                                         $$->gen("mov48","regs","-56(rbp)", MOV);
+240,244c241,245
+<                                                                                 $$->gen("mov48","-56(rbp)","regs");
+<                                                                                 $$->gen("mov8","$rbp","$rsp");
+<                                                                                 $$->gen("popq", "$rbp");
+<                                                                                 $$->gen("ret");
+<                                                                                 $$->gen("end function");
+---
+>                                                                                 $$->gen("mov48","-56(rbp)","regs", MOV);
+>                                                                                 $$->gen("mov8","$rbp","$rsp", MOV);
+>                                                                                 $$->gen("popq", "$rbp", POP);
+>                                                                                 $$->gen("ret", RET);
+>                                                                                 // $$->gen("end function");
+265c266
+<                                 $$->gen(curr_symbol_table->get_name()+ "." + $2->get_lexeme() + ":");
+---
+>                                 $$->gen(curr_symbol_table->get_name()+ "." + $2->get_lexeme() + ":", CLASSFUNCLABEL);
+269c270
+<                                 $$->gen($2->get_lexeme()+":");
+---
+>                                 $$->gen($2->get_lexeme()+":", FUNCLABEL);
+271c272
+<                             $$->gen("begin function");
+---
+>                             // $$->gen("begin function");
+293c294
+<                                         $$->gen("mov"+to_string(calculate_size(*$3,false)),to_string(offset + 16)+"(rbp)",$1->get_lexeme());
+---
+>                                         $$->gen("mov"+to_string(calculate_size(*$3,false)),to_string(offset + 16)+"(rbp)",$1->get_lexeme(), MOV);
+301c302
+<                                                 $$->gen("mov"+to_string(calculate_size(*$5,false)),to_string(offset+16)+"(rbp)",$3->get_lexeme());
+---
+>                                                 $$->gen("mov"+to_string(calculate_size(*$5,false)),to_string(offset+16)+"(rbp)",$3->get_lexeme(), MOV);
+322c323
+<             $$->gen("mov8",to_string(offset+16)+"(rbp)",$1->get_lexeme());
+---
+>             $$->gen("mov8",to_string(offset+16)+"(rbp)",$1->get_lexeme(), MOV);
+462c463
+<                                             $$->copy_code($1);
+---
+>                                             // $$->copy_code($1);
+464,475d464
+<                                                 // if($1->get_is_ptr()){
+<                                                 //         cout<<"ki"<<endl;
+<                                                 //         if($1->get_temporary()[0] == '*'){
+<                                                 //             string new_temp = NonTerminal::get_new_temporary();
+<                                                 //             $$->gen(new_temp, $1->get_temporary());
+<                                                 //             $$->gen("*"+new_temp,$2->get_temporary());
+<                                                 //         }
+<                                                 //         else $$->gen("*"+$1->get_temporary(),$2->get_temporary());
+<                                                 // }
+<                                                 // else{
+<                                                 //     $$->gen($1->get_temporary(),$2->get_temporary());
+<                                                 // }
+482c471
+<                                                     $$->gen_list_code(calculate_size(type,true),$1->get_temporary());
+---
+>                                                     $$->gen_list_code(calculate_size(type,true),$1->get_temporary(),$1);
+487c476
+<                                                 $$->gen($1->get_temporary(),$2->get_temporary());
+---
+>                                                 $$->gen($1->get_temporary(),$2->get_temporary(),MOV);
+496,513d484
+<                                                 // if($1->get_is_ptr()){
+<                                                 //     auto temp = NonTerminal::get_new_temporary();
+<                                                 //     if($1->get_temporary()[0] == '*'){
+<                                                 //         string new_temp = NonTerminal::get_new_temporary();
+<                                                 //         $$->gen(new_temp, $1->get_temporary());
+<                                                 //         $$->gen(temp, "*"+new_temp, op, $2->get_temporary());
+<                                                 //         $$->gen("*"+new_temp, temp);
+<                                                 //     }
+<                                                 //     else{
+<                                                 //         $$->gen(temp, "*"+$1->get_temporary(), op, $2->get_temporary());
+<                                                 //         $$->gen("*"+$1->get_temporary(),temp);
+<                                                 //     }
+<                                                 // }
+<                                                 // else{
+<                                                 //     auto temp = NonTerminal::get_new_temporary();                                                    
+<                                                 //     $$->gen(temp, $1->get_temporary(), op, $2->get_temporary());
+<                                                 //     $$->gen($1->get_temporary(),temp);
+<                                                 // }
+515,516c486,487
+<                                                 $$->gen(temp, $1->get_temporary(), op, $2->get_temporary());
+<                                                 $$->gen($1->get_temporary(),temp);
+---
+>                                                 $$->gen(temp, $1->get_temporary(), op, $2->get_temporary(), EXPR);
+>                                                 $$->gen($1->get_temporary(),temp,MOV);
+539a511
+>                                                     cout << "line 511" << endl;
+563c535
+<                                                     $$->copy_code($5);
+---
+>                                                     // $$->copy_code($5);
+568c540
+<                                                         $$->gen_list_code(calculate_size(type,true),$1->get_temporary());
+---
+>                                                         $$->gen_list_code(calculate_size(type,true),$1->get_temporary(),$5);
+571c543
+<                                                         $$->gen($1->get_lexeme(), $5->get_temporary());
+---
+>                                                         $$->gen($1->get_lexeme(), $5->get_temporary(),MOV);
+601,602c573,574
+<                                                             $$->copy_code($7);
+<                                                             $$->gen(temp, $1->get_temporary(), "+", to_string(offset));
+---
+>                                                             // $$->copy_code($7);
+>                                                             $$->gen(temp, $1->get_temporary(), "+", to_string(offset),EXPR);
+609c581
+<                                                                 $$->gen_list_code(calculate_size(type,true),"*"+temp);
+---
+>                                                                 $$->gen_list_code(calculate_size(type,true),"*"+temp,$7);
+612c584
+<                                                                 $$->gen("*"+temp, $7->get_temporary());
+---
+>                                                                 $$->gen("*"+temp, $7->get_temporary(),MOV);
+670c642
+<     $$ = $1; $$->gen("goto", curr_loop_end_jump_label.top()); }
+---
+>     $$ = $1; $$->gen("goto", curr_loop_end_jump_label.top(),GOTO); }
+678c650
+<     $$->gen("goto", curr_loop_start_jump_label.top());
+---
+>     $$->gen("goto", curr_loop_start_jump_label.top(),GOTO);
+696,699c668,671
+<                         $$->gen("mov48","-56(rbp)","regs");
+<                         $$->gen("mov8","$rbp","$rsp");
+<                         $$->gen("popq", "$rbp");
+<                         $$->gen("ret");
+---
+>                         $$->gen("mov48","-56(rbp)","regs", MOV);
+>                         $$->gen("mov8","$rbp","$rsp", MOV);
+>                         $$->gen("popq", "$rbp", POP);
+>                         $$->gen("ret",RET);
+713,717c685,689
+<     $$->gen("movq", $2->get_temporary(),"$rax");
+<     $$->gen("mov48","-56(rbp)","regs");
+<     $$->gen("mov8","$rbp","$rsp");
+<     $$->gen("popq", "$rbp");
+<     $$->gen("ret");
+---
+>     $$->gen("$rax", $2->get_temporary(), MOV);
+>     $$->gen("mov48","-56(rbp)","regs", MOV);
+>     $$->gen("mov8","$rbp","$rsp", MOV);
+>     $$->gen("popq", "$rbp", POP);
+>     $$->gen("ret",RET);
+736c708
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", curr_if_end_jump_label.top());
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", curr_if_end_jump_label.top(),IFNOT);
+738c710
+<     $$->gen(curr_if_end_jump_label.top());
+---
+>     $$->gen(curr_if_end_jump_label.top(),LABEL);
+745c717
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif);
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif,IFNOT);
+747,748c719,720
+<     $$->gen("goto", curr_if_end_jump_label.top());
+<     $$->gen(label_elif);
+---
+>     $$->gen("goto", curr_if_end_jump_label.top(),GOTO);
+>     $$->gen(label_elif,LABEL);
+750c722
+<     $$->gen(curr_if_end_jump_label.top());
+---
+>     $$->gen(curr_if_end_jump_label.top(),LABEL);
+757c729
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_else);
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_else,IFNOT);
+759,760c731,732
+<     $$->gen("goto", curr_if_end_jump_label.top());
+<     $$->gen(label_else);
+---
+>     $$->gen("goto", curr_if_end_jump_label.top(),GOTO);
+>     $$->gen(label_else,LABEL);
+762c734
+<     $$->gen(curr_if_end_jump_label.top());
+---
+>     $$->gen(curr_if_end_jump_label.top(),LABEL);
+770c742
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif);
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif,IFNOT);
+772,773c744,745
+<     $$->gen("goto", curr_if_end_jump_label.top());
+<     $$->gen(label_elif);
+---
+>     $$->gen("goto", curr_if_end_jump_label.top(),GOTO);
+>     $$->gen(label_elif,LABEL);
+776c748
+<     $$->gen(curr_if_end_jump_label.top());
+---
+>     $$->gen(curr_if_end_jump_label.top(),LABEL);
+787c759
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif);
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif,IFNOT);
+789,790c761,762
+<     $$->gen("goto", curr_if_end_jump_label.top());
+<     $$->gen(label_elif);
+---
+>     $$->gen("goto", curr_if_end_jump_label.top(),GOTO);
+>     $$->gen(label_elif,LABEL);
+798c770
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif);
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_elif,IFNOT);
+800,801c772,773
+<     $$->gen("goto", curr_if_end_jump_label.top());
+<     $$->gen(label_elif);
+---
+>     $$->gen("goto", curr_if_end_jump_label.top(),GOTO);
+>     $$->gen(label_elif,LABEL);
+816c788
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_end);
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_end,IFNOT);
+818c790
+<     $$->gen("goto", label_start);
+---
+>     $$->gen("goto", label_start, GOTO);
+830c802
+<     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_end);
+---
+>     $$->gen("if not", "("+$2->get_temporary()+")", "goto", label_end,IFNOT);
+832c804
+<     $$->gen("goto", label_start);
+---
+>     $$->gen("goto", label_start, GOTO);
+861c833
+<         $$->gen($2->get_temporary(), $6->get_temporary(), "-", "1");
+---
+>         $$->gen($2->get_temporary(), $6->get_temporary(), "-", "1",EXPR);
+865c837
+<         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1");
+---
+>         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1",EXPR);
+868c840
+<         $$->gen("if", "("+$2->get_temporary()+ ">="+ $8->get_temporary()+")", "goto", label_end);
+---
+>         $$->gen("if", "("+$2->get_temporary()+ ">="+ $8->get_temporary()+")", "goto", label_end,IFGOTO);
+870c842
+<         $$->gen("goto", label_start);
+---
+>         $$->gen("goto", label_start,GOTO);
+887c859
+<         $$->gen($2->get_temporary(), "-1");
+---
+>         $$->gen($2->get_temporary(), "-1",MOV);
+891c863
+<         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1");
+---
+>         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1",EXPR);
+894c866
+<         $$->gen("if", "("+$2->get_temporary()+ ">="+ $6->get_temporary()+")", "goto", label_end);
+---
+>         $$->gen("if", "("+$2->get_temporary()+ ">="+ $6->get_temporary()+")", "goto", label_end,IFGOTO);
+896c868
+<         $$->gen("goto", label_start);
+---
+>         $$->gen("goto", label_start,GOTO);
+912c884
+<         $$->gen($2->get_temporary(), "-1");
+---
+>         $$->gen($2->get_temporary(), "-1",MOV);
+916c888
+<         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1");
+---
+>         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1",EXPR);
+919c891
+<         $$->gen("if", "("+$2->get_temporary()+ ">="+ $6->get_temporary()+")", "goto", label_end);
+---
+>         $$->gen("if", "("+$2->get_temporary()+ ">="+ $6->get_temporary()+")", "goto", label_end,IFGOTO);
+921c893
+<         $$->gen("goto", label_start);
+---
+>         $$->gen("goto", label_start,GOTO);
+943c915
+<         $$->gen($2->get_temporary(), $6->get_temporary(), "-", "1");
+---
+>         $$->gen($2->get_temporary(), $6->get_temporary(), "-", "1",EXPR);
+947c919
+<         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1");
+---
+>         $$->gen($2->get_temporary(), $2->get_temporary(), "+", "1",EXPR);
+950c922
+<         $$->gen("if", "("+$2->get_temporary()+ ">="+ $8->get_temporary()+")", "goto", label_end);
+---
+>         $$->gen("if", "("+$2->get_temporary()+ ">="+ $8->get_temporary()+")", "goto", label_end,IFGOTO);
+952c924
+<         $$->gen("goto", label);
+---
+>         $$->gen("goto", label,GOTO);
+981c953
+<     $$->gen($1->get_temporary(), $3->get_temporary());
+---
+>     $$->gen($1->get_temporary(), $3->get_temporary(), MOV);
+1011c983
+<     $$->gen($$->set_temporary(), old_temp, "or", $2->get_temporary());    
+---
+>     $$->gen($$->set_temporary(), old_temp, "or", $2->get_temporary(), EXPR);  
+1036c1008
+<     $$->gen($$->set_temporary(), old_temp, "or", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "or", $2->get_temporary(), EXPR);
+1051c1023
+<     $$->gen($$->set_temporary(), old_temp, "and", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "and", $2->get_temporary(), EXPR);
+1076c1048
+<     $$->gen($$->set_temporary(), old_temp, "and", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "and", $2->get_temporary(), EXPR);
+1094c1066
+<     $$->gen($$->set_temporary(), "not", old_temp);  /*TODO: is "not" as operator fine?*/
+---
+>     $$->gen($$->set_temporary(), "not", old_temp, EXPR);  /*TODO: is "not" as operator fine?, EXPR*/
+1101c1073
+<     $$->gen($$->set_temporary(), "not", old_temp);  /*TODO: is "not" as operator fine?*/
+---
+>     $$->gen($$->set_temporary(), "not", old_temp, EXPR);  /*TODO: is "not" as operator fine?, EXPR*/
+1125c1097
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1158c1130
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1190c1162
+<     $$->gen($$->set_temporary(), old_temp, "|", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "|", $2->get_temporary(), EXPR);
+1206c1178
+<     $$->gen($$->set_temporary(), old_temp, "|", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "|", $2->get_temporary(), EXPR);
+1231c1203
+<     $$->gen($$->set_temporary(), old_temp, "^", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "^", $2->get_temporary(), EXPR);
+1247c1219
+<     $$->gen($$->set_temporary(), old_temp, "^", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "^", $2->get_temporary(), EXPR);
+1272c1244
+<     $$->gen($$->set_temporary(), old_temp, "&", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "&", $2->get_temporary(), EXPR);
+1288c1260
+<     $$->gen($$->set_temporary(), old_temp, "&", $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, "&", $2->get_temporary(), EXPR);
+1312c1284
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1351c1323
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1366c1338
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1383c1355
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1422c1394
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1436c1408
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1454c1426
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1475c1447
+<     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp, op_3AC.top(), $2->get_temporary(), EXPR);
+1491c1463
+<     $$->gen($$->set_temporary(), old_temp,op_3AC.top(),$2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp,op_3AC.top(),$2->get_temporary(), EXPR);
+1507c1479
+<     $$->gen($$->set_temporary(), old_temp,op_3AC.top(),$2->get_temporary());
+---
+>     $$->gen($$->set_temporary(), old_temp,op_3AC.top(),$2->get_temporary(), EXPR);
+1523c1495
+<     $$->gen($$->set_temporary(),old_temp,op_3AC.top(),$2->get_temporary());
+---
+>     $$->gen($$->set_temporary(),old_temp,op_3AC.top(),$2->get_temporary(), EXPR);
+1548c1520
+<     $$->gen($$->set_temporary(),"-",$2->get_temporary());
+---
+>     $$->gen($$->set_temporary(),"-",$2->get_temporary(), EXPR);
+1560c1532
+<     $$->gen($$->set_temporary(),"~",$2->get_temporary());
+---
+>     $$->gen($$->set_temporary(),"~",$2->get_temporary(), EXPR);
+1579c1551
+<     $$->gen($$->set_temporary(),temp,"**",$3->get_temporary());
+---
+>     $$->gen($$->set_temporary(),temp,"**",$3->get_temporary(), EXPR);
+1595c1567
+<     $$->gen($$->set_temporary(),temp,"**",$3->get_temporary());
+---
+>     $$->gen($$->set_temporary(),temp,"**",$3->get_temporary(), EXPR);
+1638c1610
+<             $$->gen($$->set_temporary(),$1->get_temporary(),"+",to_string(entry->get_offset()));
+---
+>             $$->gen($$->set_temporary(),$1->get_temporary(),"+",to_string(entry->get_offset()), EXPR);
+1679c1651
+<             $$->gen($$->set_temporary(),$1->get_temporary(),"+",to_string(entry->get_offset()));
+---
+>             $$->gen($$->set_temporary(),$1->get_temporary(),"+",to_string(entry->get_offset()), EXPR);
+1700c1672
+<         $$->gen($$->set_temporary(),$3->get_temporary(),"*",to_string(calculate_size(type,false)));
+---
+>         $$->gen($$->set_temporary(),$3->get_temporary(),"*",to_string(calculate_size(type,false)), EXPR);
+1702c1674
+<         $$->gen($$->set_temporary(),$1->get_temporary(),"+",old_temp);
+---
+>         $$->gen($$->set_temporary(),$1->get_temporary(),"+",old_temp, EXPR);
+1705c1677
+<             $$->gen(new_temp, $$->get_temporary());
+---
+>             $$->gen(new_temp, $$->get_temporary(), MOV);
+1727c1699
+<         $$->gen($$->set_temporary(),$3->get_temporary(),"*",to_string(calculate_size(type,false)));
+---
+>         $$->gen($$->set_temporary(),$3->get_temporary(),"*",to_string(calculate_size(type,false)), EXPR);
+1729c1701
+<         $$->gen($$->set_temporary(),$1->get_temporary(),"+",old_temp);
+---
+>         $$->gen($$->set_temporary(),$1->get_temporary(),"+",old_temp, EXPR);
+1732c1704
+<             $$->gen(new_temp, $$->get_temporary());
+---
+>             $$->gen(new_temp, $$->get_temporary(), MOV);
+1749,1750c1721,1722
+<         $$->gen("call", "print", "1");        
+<         $$->gen("$rsp","$rsp","+",to_string(calculate_size($3->get_datatype(),false))); 
+---
+>         $$->gen("call", "print", "1", CALL);
+>         $$->gen("$rsp","$rsp","+",to_string(calculate_size($3->get_datatype(),false)), EXPR); 
+1773c1745
+<                 $$->gen("pushl", to_string(type.function_table->get_parent_st()->get_offset()));
+---
+>                 $$->gen("pushl", to_string(type.function_table->get_parent_st()->get_offset()), PUSH);
+1775,1778c1747,1750
+<                 $$->gen("call", "allocmem", "1");
+<                 $$->gen("$rsp", "$rsp","+","4");
+<                 $$->gen($$->set_temporary(), "$rax");
+<                 $$->gen("pushq", $$->get_temporary());
+---
+>                 $$->gen("call", "allocmem", "1", CALL);
+>                 $$->gen("$rsp", "$rsp","+","4", EXPR);
+>                 $$->gen($$->set_temporary(), "$rax", EXPR);
+>                 $$->gen("pushq", $$->get_temporary(), PUSH);
+1780c1752
+<             else $$->gen("pushq",$1->get_temporary());
+---
+>             else $$->gen("pushq",$1->get_temporary(), PUSH);
+1786c1758
+<             $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), to_string(top2));
+---
+>             $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), to_string(top2), CALL);
+1790c1762
+<             $$->gen("call", type.function_table->get_name(), to_string(top2));
+---
+>             $$->gen("call", type.function_table->get_name(), to_string(top2), CALL);
+1792c1764
+<         $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()));
+---
+>         $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()), EXPR);
+1794c1766
+<             $$->gen($$->set_temporary(), "$rax");
+---
+>             $$->gen($$->set_temporary(), "$rax", MOV);
+1822c1794
+<             $$->gen("pushl", to_string(type.function_table->get_parent_st()->get_offset()));
+---
+>             $$->gen("pushl", to_string(type.function_table->get_parent_st()->get_offset()), PUSH);
+1824,1827c1796,1799
+<             $$->gen("call", "allocmem", "1");
+<             $$->gen("$rsp", "$rsp","+","4");
+<             $$->gen($$->set_temporary(), "rax");
+<             $$->gen("pushq", $$->get_temporary());
+---
+>             $$->gen("call", "allocmem", "1", CALL);
+>             $$->gen("$rsp", "$rsp","+","4", EXPR);
+>             $$->gen($$->set_temporary(), "rax", EXPR);
+>             $$->gen("pushq", $$->get_temporary(), PUSH);
+1829c1801
+<         else if(type.function_table->is_first_argument_self()) $$->gen("pushq",$1->get_temporary());
+---
+>         else if(type.function_table->is_first_argument_self()) $$->gen("pushq",$1->get_temporary(), PUSH);
+1834c1806
+<             $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), "1");
+---
+>             $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), "1", CALL);
+1838c1810
+<             $$->gen("call", type.function_table->get_name(), "0");
+---
+>             $$->gen("call", type.function_table->get_name(), "0", CALL);
+1840c1812
+<         $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()));
+---
+>         $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()),EXPR);
+1842c1814
+<             $$->gen($$->set_temporary(), "$rax");
+---
+>             $$->gen($$->set_temporary(), "$rax", EXPR);
+1863c1835
+<     $$->gen("pushq",$1->get_temporary());
+---
+>     $$->gen("pushq",$1->get_temporary(), PUSH);
+1868c1840
+<         $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), "1");
+---
+>         $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), "1", CALL);
+1872c1844
+<         $$->gen("call", type.function_table->get_name(), "0");
+---
+>         $$->gen("call", type.function_table->get_name(), "0", CALL);
+1874c1846
+<     $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()));
+---
+>     $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()),EXPR);
+1876c1848
+<         $$->gen($$->set_temporary(), "$rax");
+---
+>         $$->gen($$->set_temporary(), "$rax", EXPR);
+1900c1872
+<         $$->gen("pushq",$1->get_temporary());
+---
+>         $$->gen("pushq",$1->get_temporary(), PUSH);
+1905c1877
+<             $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), to_string(top2));
+---
+>             $$->gen("call", parent_sym_table->get_name()+"."+type.function_table->get_name(), to_string(top2), CALL);
+1909c1881
+<             $$->gen("call", type.function_table->get_name(), to_string(top2));
+---
+>             $$->gen("call", type.function_table->get_name(), to_string(top2), CALL);
+1911c1883
+<         $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()));
+---
+>         $$->gen("$rsp", "$rsp", "+", to_string(type.function_table->get_agrument_size()),EXPR);
+1913c1885
+<             $$->gen($$->set_temporary(), "$rax"); 
+---
+>             $$->gen($$->set_temporary(), "$rax", EXPR); 
+1987c1959
+< | NUMBER {$$=$1;$$->set_datatype({"int",false}); $$->gen($$->set_temporary(),$$->get_lexeme());}
+---
+> | NUMBER {$$=$1;$$->set_datatype({"int",false}); $$->gen($$->set_temporary(),$$->get_lexeme(), MOV);}
+1990,1992c1962,1964
+< | TRUE_     {$$=$1;$$->set_datatype({"bool",false});$$->gen($$->set_temporary(),$$->get_lexeme());}
+< | FALSE_    {$$=$1;$$->set_datatype({"bool",false});$$->gen($$->set_temporary(),$$->get_lexeme());}
+< | REAL_NUMBER   {$$=$1;$$->set_datatype({"float",false});$$->gen($$->set_temporary(),$$->get_lexeme());}
+---
+> | TRUE_     {$$=$1;$$->set_datatype({"bool",false});$$->gen($$->set_temporary(),$$->get_lexeme(), MOV);}
+> | FALSE_    {$$=$1;$$->set_datatype({"bool",false});$$->gen($$->set_temporary(),$$->get_lexeme(),MOV) ;}
+> | REAL_NUMBER   {$$=$1;$$->set_datatype({"float",false});$$->gen($$->set_temporary(),$$->get_lexeme(), MOV);}
+1996,1997c1968,1969
+< string_one_or_more: string_one_or_more STRING   {$$=$1;auto temp = $1-> get_temporary();$$->set_lexeme($1->get_lexeme() + $2->get_lexeme()); $$->gen($$->set_temporary(),temp,"+",$2->get_lexeme());}
+< | STRING    {$$=$1;$$->set_datatype({"str",false});$$->gen($$->set_temporary(),$$->get_lexeme());}
+---
+> string_one_or_more: string_one_or_more STRING   {$$=$1;auto temp = $1-> get_temporary();$$->set_lexeme($1->get_lexeme() + $2->get_lexeme()); $$->gen($$->set_temporary(),temp,"+",$2->get_lexeme(), EXPR);}
+> | STRING    {$$=$1;$$->set_datatype({"str",false});$$->gen($$->set_temporary(),$$->get_lexeme(), EXPR);}
+2183c2155
+<      ofstream file;
+---
+>     ofstream file;
+2238a2211,2214
+>     /* for(auto & code_block: threeAC){
+>         make_dag(code_block);
+>         get_registers(code_block);
+>     } */

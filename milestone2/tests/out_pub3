@@ -1,0 +1,77 @@
+1:	begin_func ShiftReduceParser@__init__
+2:			self = pop_param;
+3:			ShiftReduceParser@__init__@name_ = pop_param;
+4:			__t0 = self + 0;
+5:			*__t0 = ShiftReduceParser@__init__@name_;
+6:	end_func
+
+7:	begin_func LR0Parser@__init__
+8:			self = pop_param;
+9:			LR0Parser@__init__@myname_ = pop_param;
+10:			LR0Parser@__init__@parentname_ = pop_param;
+11:			__t1 = self + 4;
+12:			*__t1 = LR0Parser@__init__@myname_;
+13:			__t2 = self + 0;
+14:			*__t2 = LR0Parser@__init__@parentname_;
+15:	end_func
+
+16:	begin_func CLRParser@__init__
+17:			self = pop_param;
+18:			CLRParser@__init__@myname_ = pop_param;
+19:			CLRParser@__init__@parentname_ = pop_param;
+20:			__t3 = self + 4;
+21:			*__t3 = CLRParser@__init__@myname_;
+22:			__t4 = self + 0;
+23:			*__t4 = CLRParser@__init__@parentname_;
+24:	end_func
+
+25:	begin_func LALRParser@__init__
+26:			self = pop_param;
+27:			LALRParser@__init__@myname_ = pop_param;
+28:			LALRParser@__init__@clrname_ = pop_param;
+29:			LALRParser@__init__@srname_ = pop_param;
+30:			__t5 = self + 8;
+31:			*__t5 = LALRParser@__init__@myname_;
+32:			__t6 = self + 4;
+33:			*__t6 = LALRParser@__init__@clrname_;
+34:			__t7 = self + 0;
+35:			*__t7 = LALRParser@__init__@srname_;
+36:	end_func
+
+37:	begin_func LALRParser@foo
+38:			self = pop_param;
+39:			LALRParser@foo@a = 5;
+40:			push_param 'SLR name:';
+41:			call print_str;
+42:			__t8 = self + 0;
+43:			push_param *__t8;
+44:			call print_str;
+45:			push_param 'CLR name:';
+46:			call print_str;
+47:			__t9 = self + 4;
+48:			push_param *__t9;
+49:			call print_str;
+50:			push_param 'LALR name:';
+51:			call print_str;
+52:			__t10 = self + 8;
+53:			push_param *__t10;
+54:			call print_str;
+55:	end_func
+
+56:	begin_func main
+57:			push_param 12;
+58:			call allocmem;
+59:			__t11 = #retval#;
+60:			push_param __t11;
+61:			push_param 'LALR';
+62:			push_param 'CLR';
+63:			push_param 'Shift-Reduce';
+64:			call LALRParser@__init__;
+65:			main@obj = __t11;
+66:			push_param main@obj;
+67:			call LALRParser@foo;
+68:	end_func
+
+69:	program start: 
+70:			call main;
+71:

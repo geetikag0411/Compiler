@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "*.y": "yacc",
+        "typeindex": "cpp",
+        "typeinfo": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "future": "cpp",
+        "system_error": "cpp",
+        "regex": "cpp",
+        "string": "cpp",
+        "map": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "numbers": "cpp"
+    }
+}
